@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Barra de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Condomínio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Menu Financeiro -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="financeiroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Financeiro
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="financeiroDropdown">
+                            <li><a class="dropdown-item" href="/receitas">Gerenciar Receitas</a></li>
+                            <li><a class="dropdown-item" href="/despesas">Gerenciar Despesas</a></li>
+                            <li><a class="dropdown-item" href="/relatorios">Relatórios Financeiros</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-4">
+        <!-- Título e Descrição -->
+        <div class="text-center">
+            <h1 class="mb-4" th:text="${titulo}"></h1>
+            <p class="lead" th:text="${descricao}"></p>
+        </div>
+
+        <!-- Lista de Requisitos -->
+        <div class="mt-5">
+            <h2 class="mb-3">Requisitos do Sistema</h2>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="requisito : ${requisitos}" th:text="${requisito}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
