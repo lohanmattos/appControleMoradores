@@ -10,8 +10,8 @@ public class InicioControler {
     @GetMapping("/")
     public String home(Model model) {
         // Título e Descrição
-        model.addAttribute("titulo", "Bem-vindo ao Sistema de Controle de Condomínio");
-        model.addAttribute("descricao", "Gerencie receitas, despesas e relatórios financeiros de forma simples e eficiente.");
+        model.addAttribute("titulo", "CorujaCondo - Controle de Condomínio");
+        model.addAttribute("descricao", "Sistema para gerenciar a vila Militar de forma eficiente.");
 
         return "inicio";
     }
