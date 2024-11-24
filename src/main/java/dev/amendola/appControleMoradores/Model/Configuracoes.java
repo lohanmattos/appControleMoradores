@@ -26,12 +26,6 @@ public class Configuracoes {
     @Column(nullable = false, length = 100)
     private String sindico;
 
-    @Column(nullable = true)
-    private BigDecimal fundoReserva;
-
-    @Column(nullable = true)
-    private BigDecimal taxaMensal;
-
     @Column(nullable = true, length = 255)
     private String logoUrl;
 
@@ -39,14 +33,12 @@ public class Configuracoes {
     public Configuracoes() {
     }
 
-    public Configuracoes(String nomeCondominio, String endereco, String cidade, String estado, String sindico, BigDecimal fundoReserva, BigDecimal taxaMensal, String logoUrl) {
+    public Configuracoes(String nomeCondominio, String endereco, String cidade, String estado, String sindico,  String logoUrl) {
         this.nomeCondominio = nomeCondominio;
         this.endereco = endereco;
         this.cidade = cidade;
         this.estado = estado;
         this.sindico = sindico;
-        this.fundoReserva = fundoReserva;
-        this.taxaMensal = taxaMensal;
         this.logoUrl = logoUrl;
     }
 
@@ -97,22 +89,6 @@ public class Configuracoes {
 
     public void setSindico(String sindico) {
         this.sindico = sindico;
-    }
-
-    public BigDecimal getFundoReserva() {
-        return fundoReserva;
-    }
-
-    public void setFundoReserva(BigDecimal fundoReserva) {
-        this.fundoReserva = fundoReserva;
-    }
-
-    public BigDecimal getTaxaMensal() {
-        return taxaMensal;
-    }
-
-    public void setTaxaMensal(BigDecimal taxaMensal) {
-        this.taxaMensal = taxaMensal;
     }
 
     public String getLogoUrl() {

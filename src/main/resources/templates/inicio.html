@@ -5,35 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Barra de Navegação -->
-    <div th:insert="~{fragments/navbar :: navbar}"></div>
+<!-- Barra de Navegação -->
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
-    <!-- Conteúdo Principal -->
-    <div class="container mt-4">
-        <!-- Título e Descrição -->
+<!-- Conteúdo Principal -->
+<div class="container mt-4">
+    <!-- Título e Descrição -->
+    <div class="d-flex justify-content-between align-items-center">
         <div>
             <h1 class="mb-4" th:text="${titulo}">CorujaCondo - Controle de Condomínio</h1>
             <p class="lead" th:text="${descricao}">Sistema para gerenciar a vila Militar de forma eficiente.</p>
         </div>
-
-        <!-- Funcionalidades do Sistema -->
+        <!-- Botão para Configurações -->
         <div>
-            <h2>Funcionalidades do Sistema</h2>
-            <ul class="list-group mt-3">
-                <li class="list-group-item">Controle de receitas e despesas financeiras.</li>
-                <li class="list-group-item">Gerenciamento de moradores e suas informações.</li>
-                <li class="list-group-item">Agendamento de áreas comuns do condomínio.</li>
-                <li class="list-group-item">Registro e acompanhamento de ocorrências.</li>
-                <li class="list-group-item">Relatórios financeiros detalhados para transparência.</li>
-            </ul>
+            <a href="/configuracoes" class="btn btn-primary">
+                <i class="fas fa-cogs"></i> Configurações
+            </a>
         </div>
     </div>
+</div>
+<!-- Rodapé -->
+<div th:insert="fragments/footer.html :: footer"></div>
 
-    <!-- Footer -->
-    <div th:insert="~{fragments/footer :: footer}"></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

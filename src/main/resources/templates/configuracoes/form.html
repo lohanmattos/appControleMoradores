@@ -7,65 +7,70 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Barra de Navegação -->
-    <div th:insert="~{fragments/navbar :: navbar}"></div>
+<!-- Barra de Navegação -->
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
-    <div class="container mt-4">
-        <!-- Título -->
-        <div class="text-center">
-            <h1>Configurações do Condomínio</h1>
-            <p>Edite as informações do condomínio abaixo:</p>
-        </div>
+<div class="container mt-4">
+    <!-- Título -->
+    <div>
+        <h1>Configurações do Condomínio</h1>
+        <p>Edite as informações do condomínio abaixo:</p>
+    </div>
 
-        <!-- Mensagem de Sucesso -->
-        <div th:if="${param.sucesso}" class="alert alert-success" role="alert">
-            Configurações salvas com sucesso!
-        </div>
+    <!-- Mensagem de Sucesso -->
+    <div th:if="${param.sucesso}" class="alert alert-success" role="alert">
+        Configurações salvas com sucesso!
+    </div>
 
-        <!-- Formulário -->
-        <form th:action="@{/configuracoes}" th:object="${configuracoes}" method="post">
-            <div class="mb-3">
+    <!-- Formulário -->
+    <form th:action="@{/configuracoes}" th:object="${configuracoes}" method="post">
+        <div class="row" >
+            <!-- Nome do Condomínio -->
+            <div class="col-md-6 mb-3">
                 <label for="nomeCondominio" class="form-label">Nome do Condomínio</label>
                 <input type="text" id="nomeCondominio" name="nomeCondominio" th:field="*{nomeCondominio}" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <label for="endereco" class="form-label">Endereço</label>
-                <input type="text" id="endereco" name="endereco" th:field="*{endereco}" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="cidade" class="form-label">Cidade</label>
-                <input type="text" id="cidade" name="cidade" th:field="*{cidade}" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="estado" class="form-label">Estado</label>
-                <input type="text" id="estado" name="estado" th:field="*{estado}" class="form-control" maxlength="2" required>
-            </div>
-            <div class="mb-3">
+            <!-- Síndico -->
+            <div class="col-md-6 mb-3">
                 <label for="sindico" class="form-label">Síndico</label>
                 <input type="text" id="sindico" name="sindico" th:field="*{sindico}" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <label for="fundoReserva" class="form-label">Fundo de Reserva</label>
-                <input type="number" id="fundoReserva" name="fundoReserva" th:field="*{fundoReserva}" class="form-control" step="0.01" required>
+        </div>
+
+        <div class="row">
+            <!-- Endereço -->
+            <div class="col-md-6 mb-3">
+                <label for="endereco" class="form-label">Endereço</label>
+                <input type="text" id="endereco" name="endereco" th:field="*{endereco}" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <label for="taxaMensal" class="form-label">Taxa Mensal</label>
-                <input type="number" id="taxaMensal" name="taxaMensal" th:field="*{taxaMensal}" class="form-control" step="0.01" required>
+            <!-- Cidade -->
+            <div class="col-md-3 mb-3">
+                <label for="cidade" class="form-label">Cidade</label>
+                <input type="text" id="cidade" name="cidade" th:field="*{cidade}" class="form-control" required>
             </div>
-            <div class="mb-3">
+            <!-- Estado -->
+            <div class="col-md-3 mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <input type="text" id="estado" name="estado" th:field="*{estado}" class="form-control" maxlength="2" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- URL do Logotipo -->
+            <div class="col-md-12 mb-3">
                 <label for="logoUrl" class="form-label">URL do Logotipo</label>
                 <input type="url" id="logoUrl" name="logoUrl" th:field="*{logoUrl}" class="form-control">
             </div>
-            <div class="d-flex justify-content-between">
-                <button type="reset" class="btn btn-secondary">Limpar</button>
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </div>
-        </form>
-    </div>
+        </div>
 
-    <!-- Footer -->
-    <div th:insert="~{fragments/footer :: footer}"></div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+    </form>
+</div>
+<!-- Rodapé -->
+<div th:insert="fragments/footer.html :: footer"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
