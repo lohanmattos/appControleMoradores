@@ -18,6 +18,8 @@ public class DashFinanceiro {
 
     @GetMapping("/dashFinanceiro")
     public String dashboard(Model model) {
+    	model.addAttribute("titulo", "Painel Financeiro");
+         
         BigDecimal totalReceitas = financeiroService.calcularTotalReceitas();
         BigDecimal totalDespesas = financeiroService.calcularTotalDespesas();
         BigDecimal lucro = totalReceitas.subtract(totalDespesas);

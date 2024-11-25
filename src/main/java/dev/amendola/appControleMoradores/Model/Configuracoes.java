@@ -1,7 +1,6 @@
 package dev.amendola.appControleMoradores.Model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "configuracoes")

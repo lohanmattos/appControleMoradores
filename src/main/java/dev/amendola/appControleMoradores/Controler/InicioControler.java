@@ -10,7 +10,7 @@ public class InicioControler {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("titulo", "Página Inicial");
-        model.addAttribute("descricao", "Sistema para gerenciar a vila Militar de forma eficiente.");
+        model.addAttribute("descricao", "Sistema para gerenciar a vila Militar.");
         return "inicio";
     }
 }
