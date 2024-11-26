@@ -20,7 +20,11 @@ public class Receita {
 
     @Column(nullable = false)
     private LocalDate data;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private CategoriaContas categoria;
+    
     // Getters e Setters
     public Long getId() {
         return id;
@@ -41,7 +45,7 @@ public class Receita {
     public BigDecimal getValor() {
         return valor;
     }
-
+   
     public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
@@ -53,4 +57,14 @@ public class Receita {
     public void setData(LocalDate data) {
         this.data = data;
     }
+
+	public CategoriaContas getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaContas categoria) {
+		this.categoria = categoria;
+	}
+
+    
 }

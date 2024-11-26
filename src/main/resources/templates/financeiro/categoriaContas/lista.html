@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Categorias de Contas</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Sidebar -->
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Categorias de Contas</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+                            <li class="breadcrumb-item active">Categorias</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback de Sucesso -->
+        <div class="container-fluid">
+            <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> <span th:text="${param.success}">Operação realizada com sucesso.</span>
+            </div>
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-times-circle"></i> <span th:text="${param.error}">Erro ao realizar a operação.</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Cabeçalho com Título e Botão -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Lista de Categorias</h3>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#novaCategoriaModal">
+                        <i class="fas fa-plus"></i> Nova Categoria
+                    </button>
+                </div>
+
+                <!-- Tabela de Categorias -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Categorias de Contas</h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Tipo</th>                               
+                                    <th>Nome</th>
+                                    <th>Descrição</th>                              
+                                    <th>Ações</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="categoria : ${categorias}">
+                                    <td th:text="${categoria.tipo}"></td>
+                                    <td th:text="${categoria.nome}"></td>
+                                    <td th:text="${categoria.descricao}"></td>
+                                    <td>
+                                        <!-- Botão para excluir -->
+                                        <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#confirmarExclusaoModal"
+                                                th:attr="data-id=${categoria.id}">
+                                            <i class="fas fa-trash"></i> Excluir
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Caso não existam categorias -->
+                                <tr th:if="${#lists.isEmpty(categorias)}">
+                                    <td colspan="4" class="text-center">Nenhuma categoria encontrada.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal para Cadastro de Nova Categoria -->
+    <div class="modal fade" id="novaCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="novaCategoriaModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="novaCategoriaModalLabel">Nova Categoria</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/categorias}" th:object="${categoria}" method="post">
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" th:field="*{nome}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" th:field="*{descricao}" class="form-control"></textarea>
+    </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <select id="tipo" th:field="*{tipo}" class="form-control" required>
+                                <option value="" disabled selected>Selecione o tipo</option>
+                                <option value="RECEITA">Receita</option>
+                                <option value="DESPESA">Despesa</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div class="modal fade" id="confirmarExclusaoModal" tabindex="-1" role="dialog" aria-labelledby="confirmarExclusaoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarExclusaoModalLabel">Confirmar Exclusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Tem certeza de que deseja excluir esta categoria? Essa ação não pode ser desfeita.</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <a id="confirmarExclusaoBotao" href="#" class="btn btn-danger">Excluir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-inline">Gerencie categorias com eficiência!</div>
+        <strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.</strong> Todos os direitos reservados.
+    </footer>
+</div>
+
+<!-- REQUIRED SCRIPTS -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("confirmarExclusaoModal");
+        const confirmarExclusaoBotao = document.getElementById("confirmarExclusaoBotao");
+
+        $('#confirmarExclusaoModal').on('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Botão que abriu o modal
+            const categoriaId = button.getAttribute("data-id"); // Obtém o ID da categoria
+            const excluirUrl = `/categorias/excluir/${categoriaId}`; // Constrói a URL dinamicamente
+
+            confirmarExclusaoBotao.setAttribute("href", excluirUrl);
+        });
+    });
+</script>
+</body>
+</html>

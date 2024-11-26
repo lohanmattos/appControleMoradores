@@ -5,6 +5,7 @@ import dev.amendola.appControleMoradores.Service.DespesaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/despesas")
@@ -23,15 +24,26 @@ public class DespesaController {
         return "financeiro/despesas/lista";
     }
 
+ // Exemplo de controlador em Spring
     @PostMapping
-    public String salvarDespesa(@ModelAttribute Despesa despesa) {
-        despesaService.salvar(despesa);
+    public String cadastrarDespesa(@ModelAttribute("despesa") Despesa despesa, RedirectAttributes redirectAttributes) {
+        try {
+            despesaService.salvar(despesa);
+            redirectAttributes.addAttribute("success", "Despesa cadastrada com sucesso.");
+        } catch (Exception e) {
+            redirectAttributes.addAttribute("error", "Erro ao cadastrar a despesa.");
+        }
         return "redirect:/despesas";
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluirDespesa(@PathVariable Long id) {
-        despesaService.deletar(id);
+    public String excluirDespesa(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            despesaService.deletar(id);
+            redirectAttributes.addAttribute("success", "Despesa excluída com sucesso.");
+        } catch (Exception e) {
+            redirectAttributes.addAttribute("error", "Erro ao excluir a despesa.");
+        }
         return "redirect:/despesas";
     }
 }
