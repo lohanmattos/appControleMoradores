@@ -165,7 +165,7 @@
     <label for="categoria">Categoria</label>
     <select id="categoria" name="categoria.id" class="form-control" required>
         <option value="" disabled selected>Selecione a categoria</option>
-        <option th:each="categoria : ${categoriasReceitas}"
+        <option th:each="categoria : ${categoriasDespesas}"
                 th:value="${categoria.id}"
                 th:text="${categoria.nome}"></option>
     </select>
