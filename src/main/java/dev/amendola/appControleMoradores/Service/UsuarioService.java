@@ -68,5 +68,19 @@ public class UsuarioService implements UserDetailsService {
 	                .map(perfil -> new SimpleGrantedAuthority(perfil.getDescricao())) // Converte para SimpleGrantedAuthority
 	                .toList(); // Converte para lista
 	    }
+
+		public Usuario findByEmail(String username) {
+	        Usuario usuario = repository.findByEmail(username);
+	        
+			return usuario;
+		}
+		
+	    public void updateUser(Usuario user) {
+	    	repository.save(user); // Atualiza o usuário
+	    }
+
+	    public List<Usuario> findAll() {
+	        return repository.findAll(); // Busca todos os usuários
+	    }
 	   	    
 }

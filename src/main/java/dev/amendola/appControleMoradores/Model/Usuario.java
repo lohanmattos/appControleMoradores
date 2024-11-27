@@ -10,6 +10,9 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(nullable = false)
+    private String nome;
 
     @Column(nullable = false)
     private boolean ativo;
@@ -84,7 +87,14 @@ public class Usuario {
 		// TODO Stub de método gerado automaticamente
 		return null;
 	}
-    
 
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+    
     
 }
