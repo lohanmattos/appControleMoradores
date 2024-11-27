@@ -38,7 +38,6 @@ public class UsuarioController {
             // Obtém o usuário atual pelo email
             Usuario existingUser = usuarioService.findByEmail(principal.getName());
             existingUser.setEmail(user.getEmail());
-            existingUser.setNome(user.getNome());
             existingUser.setSenha(passwordEncoder.encode(user.getSenha())); // Atualize com codificação da senha, se necessário
             usuarioService.updateUser(existingUser);
 

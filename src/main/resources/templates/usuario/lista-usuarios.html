@@ -55,7 +55,6 @@
             <thead>
                 <tr>
                     <th style="width: 1%">#</th>
-                    <th style="width: 20%">Nome</th>
                     <th style="width: 20%">E-mail</th>
                     <th style="width: 15%">Status</th>
                     <th style="width: 15%">Perfil</th>
@@ -65,7 +64,6 @@
             <tbody>
                 <tr th:each="user, iterStat : ${usuarios}">
                     <td th:text="${iterStat.count}">1</td>
-                    <td th:text="${user.nome}">Nome do Usuário</td>
                     <td th:text="${user.email}">email@example.com</td>
                     <td>
                         <span th:text="${user.ativo ? 'Ativo' : 'Inativo'}"

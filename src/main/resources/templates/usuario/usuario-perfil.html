@@ -48,7 +48,6 @@
                                 <div class="text-center">
                                     
                                 </div>
-                                <h3 class="profile-username text-center" th:text="${user.nome}">Nome do Usuário</h3>
                                 <p class="text-muted text-center" th:text="${user.perfis}">Perfis</p>
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
@@ -73,13 +72,7 @@
                             <div class="card-body">
                                 <form th:action="@{/usuario/perfil}" method="post" th:object="${user}">
                                     <div class="form-group row">
-                                        <label for="inputNome" class="col-sm-2 col-form-label">Nome</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputNome" th:field="*{nome}" placeholder="Nome Completo">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputNome" class="col-sm-2 col-form-label">Nome</label>
+                                        <label for="inputNome" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
                                             <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Email">
                                         </div>
@@ -92,7 +85,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="offset-sm-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Atualizar Perfil</button>
+                                            <button type="submit" class="btn btn-primary btn-block">Atualizar Perfil</button>
                                         </div>
                                     </div>
                                 </form>

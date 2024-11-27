@@ -11,7 +11,7 @@ public class InicioControler {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("titulo", "Página Inicial");
-        model.addAttribute("descricao", "Sistema para gerenciar a vila Militar.");
+        model.addAttribute("descricao", "Sistema inteligente para gerenciar condominios. ");
         return "inicio";
     }
 

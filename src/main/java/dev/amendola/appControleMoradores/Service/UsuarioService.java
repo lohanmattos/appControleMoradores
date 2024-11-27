@@ -82,5 +82,10 @@ public class UsuarioService implements UserDetailsService {
 	    public List<Usuario> findAll() {
 	        return repository.findAll(); // Busca todos os usuários
 	    }
+
+		public void deleteById(Long id) {
+			// TODO Auto-generated method stub
+			
+		}
 	   	    
 }

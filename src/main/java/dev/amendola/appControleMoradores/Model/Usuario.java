@@ -10,9 +10,6 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(nullable = false)
-    private String nome;
 
     @Column(nullable = false)
     private boolean ativo;
@@ -33,7 +30,7 @@ public class Usuario {
         inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
     private List<Perfil> perfis;
-
+    
     // Getters e Setters
     public Long getId() {
         return id;
@@ -86,15 +83,5 @@ public class Usuario {
 	public Usuario orElseThrow(Object object) {
 		// TODO Stub de método gerado automaticamente
 		return null;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-    
-    
+	}    
 }
