@@ -35,7 +35,7 @@ public class DespesaController {
         List<CategoriaContas> categoriasDespesas = categoriaContasService.listarPorTipo(TipoCategoria.DESPESA);
 
         model.addAttribute("categoriasDespesas", categoriasDespesas);
-        return "financeiro/despesas/lista";
+        return "financeiro/despesas/despesas";
     }
 
  // Exemplo de controlador em Spring

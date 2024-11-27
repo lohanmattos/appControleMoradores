@@ -25,7 +25,7 @@ public class CategoriaContasController {
         model.addAttribute("categorias", categoriaContasService.listarTodos());
         model.addAttribute("categoria", new CategoriaContas()); // Adiciona o objeto ao modelo
 
-        return "financeiro/categoriaContas/lista"; // Crie um template para exibir as categorias
+        return "financeiro/categoriaContas/categoria-contas"; // Crie um template para exibir as categorias
     }
     
     @PostMapping

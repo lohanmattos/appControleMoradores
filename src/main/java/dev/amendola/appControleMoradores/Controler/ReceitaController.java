@@ -41,7 +41,7 @@ public class ReceitaController {
 
         model.addAttribute("categoriasReceitas", categoriasReceitas);
         
-        return "financeiro/receitas/lista"; // Redireciona para o template receitas/lista.html
+        return "financeiro/receitas/receitas"; // Redireciona para o template receitas/lista.html
     }
 
     

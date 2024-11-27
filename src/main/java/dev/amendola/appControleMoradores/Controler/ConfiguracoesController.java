@@ -23,7 +23,7 @@ public class ConfiguracoesController {
         } catch (RuntimeException e) {
             model.addAttribute("configuracoes", new Configuracoes());
         }
-        return "configuracoes/form";
+        return "configuracoes/config";
     }
 
     // Salva as alterações realizadas no formulário
