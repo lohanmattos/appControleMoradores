@@ -7,7 +7,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.amendola.appControleMoradores.Model.Morador;
+import dev.amendola.appControleMoradores.Model.Perfil;
 import dev.amendola.appControleMoradores.Repository.MoradorRepository;
+import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 
 @Service
 public class MoradorService {
@@ -17,16 +19,28 @@ public class MoradorService {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private PerfilRepository perfilRepository;
 
     public List<Morador> buscarTodos() {
         return moradorRepository.findAll();
     }
 
     public void salvar(Morador morador) {
-        // Criptografa a senha do usuário
         if (morador.getUsuario() != null) {
+            // Criptografa a senha do usuário
             String senhaCriptografada = passwordEncoder.encode(morador.getUsuario().getSenha());
             morador.getUsuario().setSenha(senhaCriptografada);
+
+            // Busca o perfil padrão no banco de dados
+            Perfil perfilPadrao = perfilRepository.findByDescricao("ROLE_USER")
+                    .orElseThrow(() -> new RuntimeException("Perfil padrão 'ROLE_USER' não encontrado."));
+
+            // Adiciona o perfil padrão ao usuário
+            if (morador.getUsuario().getPerfis() == null || morador.getUsuario().getPerfis().isEmpty()) {
+                morador.getUsuario().setPerfis(List.of(perfilPadrao));
+            }
         }
 
         // Salva o morador com o usuário
@@ -39,5 +53,10 @@ public class MoradorService {
 
     public void excluir(Long id) {
         moradorRepository.deleteById(id);
+    }
+    
+    public Morador buscarPorId(Long id) {
+        return moradorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Morador não encontrado."));
     }
 }
