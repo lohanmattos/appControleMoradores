@@ -24,12 +24,14 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/", true) // Redireciona para a página principal após login
                 .permitAll()
             )
             .logout((logout) -> logout
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
-            );
+            )
+            ;
 
         return http.build();
     }
