@@ -1,6 +1,7 @@
 package dev.amendola.appControleMoradores.Model;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -24,39 +25,38 @@ public class Receita {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private CategoriaContas categoria;
-    
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public BigDecimal getValor() {
-        return valor;
-    }
-   
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    public LocalDate getData() {
-        return data;
-    }
+	public BigDecimal getValor() {
+		return valor;
+	}
 
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+
+	public LocalDate getData() {
+		return data;
+	}
+
+	public void setData(LocalDate data) {
+		this.data = data;
+	}
 
 	public CategoriaContas getCategoria() {
 		return categoria;
@@ -65,6 +65,6 @@ public class Receita {
 	public void setCategoria(CategoriaContas categoria) {
 		this.categoria = categoria;
 	}
-
+    
     
 }

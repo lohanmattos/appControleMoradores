@@ -19,7 +19,7 @@
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
         
-            <a href="#" class="h1"><b>Coruja</b>Condo</a>
+            <a th:href="@{/}" class="h1"><b>Coruja</b>Condo</a>
                   <p>Controle de Condominios</p>
             
         </div>
@@ -53,6 +53,8 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden"
+            name="${_csrf.parameterName}" value="${_csrf.token}" />
                  <div class="icheck-primary">
               <!-- Adicione o atributo "name" ao checkbox e o "id" associado -->
               <input type="checkbox" id="rememberMe" name="rememberMe" th:checked="${param.rememberMe}">
