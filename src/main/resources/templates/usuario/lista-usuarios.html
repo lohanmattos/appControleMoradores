@@ -1,102 +1,217 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Usuários</title>
-    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
-    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Gerenciar Usuários</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+<!-- AdminLTE -->
+<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
 
-    <!-- Navbar -->
-    <nav th:insert="~{fragments/navbar :: navbar}"></nav>
+        <!-- Navbar -->
+        <div th:insert="~{fragments/navbar :: navbar}"></div>
 
-    <!-- Sidebar -->
-    <aside th:insert="~{fragments/sidebar :: sidebar}"></aside>
+        <!-- Sidebar -->
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Content Header -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Lista de Usuários</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-                            <li class="breadcrumb-item active">Usuários</li>
-                        </ol>
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Gerenciar Usuários</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+                                <li class="breadcrumb-item active">Usuários</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Main content -->
-        <section class="content">
+            <!-- Feedback de Sucesso -->
             <div class="container-fluid">
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Lista de Usuários</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                <i class="fas fa-times"></i>
-            </button>
+                <div th:if="${param.success}"
+                    class="alert alert-success alert-dismissible fade show"
+                    role="alert">
+                    <i class="fas fa-check-circle"></i> <span
+                        th:text="${param.success}">Operação realizada com sucesso.</span>
+                </div>
+                <div th:if="${param.error}"
+                    class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-times-circle"></i> <span th:text="${param.error}">Erro
+                        ao realizar a operação.</span>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Cabeçalho com Título e Botão -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Lista de Usuários</h3>
+                        <button class="btn btn-primary" data-toggle="modal"
+                            data-target="#novoUsuarioModal">
+                            <i class="fas fa-plus"></i> Novo Usuário
+                        </button>
+                    </div>
+
+                    <!-- Tabela de Usuários -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Lista de Usuários</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Email</th>
+                                        <th>Ativo</th>
+                                        <th>Perfis</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="usuario : ${usuarios}">
+                                        <td th:text="${usuario.id}"></td>
+                                        <td th:text="${usuario.email}"></td>
+                    <td>
+                        <span th:text="${usuario.ativo ? 'Ativo' : 'Inativo'}"
+                              th:classappend="${usuario.ativo ? 'badge badge-success' : 'badge badge-danger'}">Ativo</span>
+                    </td>                                        <td>
+    <ul class="list-unstyled">
+        <li th:each="perfil : ${usuario.perfis}">
+            <span class="badge"
+                  th:classappend="${perfil.descricao == 'ROLE_ADMIN' ? 'badge-primary' 
+                                : perfil.descricao == 'ROLE_USER' ? 'badge-secondary' 
+                                : perfil.descricao == 'ROLE_SINDICO' ? 'badge-warning' : 'badge-secondary'}"
+                  th:text="${perfil.descricao == 'ROLE_ADMIN' ? 'Administrador' 
+                                : perfil.descricao == 'ROLE_USER' ? 'Morador' 
+                                : perfil.descricao == 'ROLE_SINDICO' ? 'Síndico' : 'Desconhecido'}">
+            </span>
+        </li>
+    </ul>
+</td>
+
+                                        <td>
+                                            <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#confirmarExclusaoModal"
+                                                th:attr="data-id=${usuario.id}">
+                                                <i class="fas fa-trash"></i> Excluir
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Caso não existam usuários -->
+                                    <tr th:if="${#lists.isEmpty(usuarios)}">
+                                        <td colspan="5" class="text-center">Nenhum usuário encontrado.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Modal para Cadastro de Novo Usuário -->
+<!-- Modal para Cadastro de Novo Usuário -->
+<div class="modal fade" id="novoUsuarioModal" tabindex="-1"
+    role="dialog" aria-labelledby="novoUsuarioModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="novoUsuarioModalLabel">Novo Usuário</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/usuarios}" method="post">
+                    <!-- Campo Email -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <!-- Campo Senha -->
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" class="form-control" required>
+                    </div>
+                    
+                    <!-- Campo Perfis -->
+                    <div class="form-group">
+                        <label for="perfis">Perfis</label>
+                        <select id="perfis" name="perfis" class="form-control">
+                            <option th:each="perfil : ${perfis}" th:value="${perfil.id}" th:text="${perfil.descricao}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Campo Ativo -->
+                    <div class="form-group">
+                        <label>Ativo</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ativo" id="ativoSim" value="true" checked>
+                                <label class="form-check-label" for="ativoSim">Sim</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ativo" id="ativoNao" value="false">
+                                <label class="form-check-label" for="ativoNao">Não</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    <div class="card-body p-0">
-        <table class="table table-striped projects">
-            <thead>
-                <tr>
-                    <th style="width: 1%">#</th>
-                    <th style="width: 20%">E-mail</th>
-                    <th style="width: 15%">Status</th>
-                    <th style="width: 15%">Perfil</th>
-                    <th style="width: 15%">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="user, iterStat : ${usuarios}">
-                    <td th:text="${iterStat.count}">1</td>
-                    <td th:text="${user.email}">email@example.com</td>
-                    <td>
-                        <span th:text="${user.ativo ? 'Ativo' : 'Inativo'}"
-                              th:classappend="${user.ativo ? 'badge badge-success' : 'badge badge-danger'}">Ativo</span>
-                    </td>
-                    <td th:text="${user.perfis}">Admin</td>
-                    <td class="project-actions text-right">
-                        <a class="btn btn-primary btn-sm" th:href="@{'/usuario/detalhes/' + ${user.id}}">
-                            <i class="fas fa-folder"></i> Visualizar
-                        </a>
-                        <a class="btn btn-info btn-sm" th:href="@{'/usuario/editar/' + ${user.id}}">
-                            <i class="fas fa-pencil-alt"></i> Editar
-                        </a>
-                        <a class="btn btn-danger btn-sm" th:href="@{'/usuario/excluir/' + ${user.id}}">
-                            <i class="fas fa-trash"></i> Excluir
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 
-            </div>
-        </section>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-inline">Sistema de Usuários</div>
+            <strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.
+            </strong> Todos os direitos reservados.
+        </footer>
     </div>
 
-    <!-- Footer -->
-    <footer th:insert="~{fragments/footer :: footer}"></footer>
-</div>
+    <!-- REQUIRED SCRIPTS -->
+    <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/dist/js/adminlte.min.js}"></script>
+    <script>
+        $('#confirmarExclusaoModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var userId = button.data('id');
+            $('#confirmarExclusaoBotao').attr('href', '/usuarios/excluir/' + userId);
+        });
+    </script>
 
-<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/dist/js/adminlte.min.js}"></script>
 </body>
 </html>

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import dev.amendola.appControleMoradores.Model.Perfil;
 import dev.amendola.appControleMoradores.Model.Usuario;
+import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 import dev.amendola.appControleMoradores.Service.UsuarioService;
 
 @Controller
@@ -24,6 +26,9 @@ public class UsuarioController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private PerfilRepository perfilRepository;
 
     @GetMapping("/perfil")
     public String userProfile(Model model, Principal principal) {
@@ -52,7 +57,28 @@ public class UsuarioController {
     @GetMapping("/listar")
     public String listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.findAll();
+        
+        List<Perfil> perfis = perfilRepository.findAll();
+        
+        model.addAttribute("perfis", perfis); // Adiciona a lista de perfis ao modelo
         model.addAttribute("usuarios", usuarios); // Adiciona a lista de usuários ao modelo
         return "usuario/lista-usuarios";
     }
+    
+    
+    @PostMapping()
+    public String SalvarUser(Usuario user, Principal principal, Model model) {
+        try {
+          
+            usuarioService.cadastrarUsuario(user);
+
+            model.addAttribute("success", "Perfil atualizado com sucesso!");
+        } catch (Exception e) {
+            model.addAttribute("error", "Erro ao atualizar o perfil.");
+        }
+
+        return "redirect:/usuario/perfil";
+    }
+    
+    
 }

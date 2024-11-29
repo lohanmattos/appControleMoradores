@@ -87,5 +87,9 @@ public class UsuarioService implements UserDetailsService {
 			// TODO Auto-generated method stub
 			
 		}
+		
+		public Usuario cadastrarUsuario(Usuario usuario) {
+			return repository.save(usuario);
+		}
 	   	    
 }

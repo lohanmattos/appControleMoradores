@@ -20,6 +20,8 @@
         <div class="card-header text-center">
         
             <a href="#" class="h1"><b>Coruja</b>Condo</a>
+                  <p>Controle de Condominios</p>
+            
         </div>
         <div class="card-body">
             <p class="login-box-msg">Entre para iniciar sua sessão</p>
@@ -51,12 +53,24 @@
                         </div>
                     </div>
                 </div>
+                 <div class="icheck-primary">
+              <!-- Adicione o atributo "name" ao checkbox e o "id" associado -->
+              <input type="checkbox" id="rememberMe" name="rememberMe" th:checked="${param.rememberMe}">
+              <label for="rememberMe">
+                Lembre de mim
+              </label>
+            </div>
                 <div class="row">
                     <div class="col-4">
+                    
                         <button type="submit" class="btn btn-primary btn-block">Entrar</button>
                     </div>
                 </div>
             </form>
+             <div class="text-center " >
+      <br>
+          <i><b>© 2024 Copyright: Amendola.dev</b></i>   
+      </div> 
         </div>
     </div>
 </div>
