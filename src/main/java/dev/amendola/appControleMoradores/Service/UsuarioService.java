@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.userdetails.User;
@@ -20,7 +21,10 @@ import dev.amendola.appControleMoradores.Repository.UsuarioRepository;
 public class UsuarioService implements UserDetailsService {
 	
 	 @Autowired
-	    private UsuarioRepository repository;
+	 private UsuarioRepository repository;
+	 
+	 @Autowired
+	 private PasswordEncoder passwordEncoder;
 
 	    /**
 	     * Busca o usuário pelo email no banco de dados.
@@ -83,13 +87,23 @@ public class UsuarioService implements UserDetailsService {
 	        return repository.findAll(); // Busca todos os usuários
 	    }
 
-		public void deleteById(Long id) {
-			// TODO Auto-generated method stub
-			
-		}
 		
 		public Usuario cadastrarUsuario(Usuario usuario) {
+			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+			System.out.println(usuario);
 			return repository.save(usuario);
 		}
 	   	    
+		public Usuario buscarUsuarioPorId(Long id) {
+		    return repository.findById(id)
+		        .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + id));
+		}
+
+		public void excluirUsuario(Long id) {
+			// TODO Auto-generated method stub
+			
+			Usuario user = this.buscarUsuarioPorId(id);
+			repository.delete(user);
+		}
+
 }

@@ -68,62 +68,67 @@
                         </button>
                     </div>
 
-                    <!-- Tabela de Usuários -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Lista de Usuários</h3>
-                        </div>
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-bordered table-striped">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Email</th>
-                                        <th>Ativo</th>
-                                        <th>Perfis</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="usuario : ${usuarios}">
-                                        <td th:text="${usuario.id}"></td>
-                                        <td th:text="${usuario.email}"></td>
+                  <div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Usuários</h3>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Ativo</th>
+                    <th>Perfis</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop de usuários -->
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.id}"></td>
+                    <td th:text="${usuario.email}"></td>
                     <td>
                         <span th:text="${usuario.ativo ? 'Ativo' : 'Inativo'}"
-                              th:classappend="${usuario.ativo ? 'badge badge-success' : 'badge badge-danger'}">Ativo</span>
-                    </td>                                        <td>
-    <ul class="list-unstyled">
-        <li th:each="perfil : ${usuario.perfis}">
-            <span class="badge"
-                  th:classappend="${perfil.descricao == 'ROLE_ADMIN' ? 'badge-primary' 
-                                : perfil.descricao == 'ROLE_USER' ? 'badge-secondary' 
-                                : perfil.descricao == 'ROLE_SINDICO' ? 'badge-warning' : 'badge-secondary'}"
-                  th:text="${perfil.descricao == 'ROLE_ADMIN' ? 'Administrador' 
-                                : perfil.descricao == 'ROLE_USER' ? 'Morador' 
-                                : perfil.descricao == 'ROLE_SINDICO' ? 'Síndico' : 'Desconhecido'}">
-            </span>
-        </li>
-    </ul>
+                              th:classappend="${usuario.ativo ? 'badge badge-success' : 'badge badge-danger'}">
+                        </span>
+                    </td>
+                    <td>
+                        <ul class="list-unstyled">
+                            <li th:each="perfil : ${usuario.perfis}">
+                                <span class="badge"
+                                      th:classappend="${perfil.descricao == 'ROLE_ADMIN' ? 'badge-primary' 
+                                                    : perfil.descricao == 'ROLE_USER' ? 'badge-secondary' 
+                                                    : perfil.descricao == 'ROLE_SINDICO' ? 'badge-warning' : 'badge-secondary'}"
+                                      th:text="${perfil.descricao == 'ROLE_ADMIN' ? 'Administrador' 
+                                                    : perfil.descricao == 'ROLE_USER' ? 'Morador' 
+                                                    : perfil.descricao == 'ROLE_SINDICO' ? 'Síndico' : 'Desconhecido'}">
+                                </span>
+                            </li>
+                        </ul>
+                    </td>
+                   <td>
+    <!-- Botão para abrir o modal de edição -->
+    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#novoUsuarioModal" th:attr="data-id=${usuario.id}">
+        <i class="fas fa-edit"></i> Editar
+    </button>
+
+    <!-- Botão para abrir o modal de exclusão -->
+    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmarExclusaoModal" th:attr="data-id=${usuario.id}">
+        <i class="fas fa-trash"></i> Excluir
+    </button>
 </td>
 
-                                        <td>
-                                            <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-edit"></i> Editar
-                                            </a>
-                                            <button class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#confirmarExclusaoModal"
-                                                th:attr="data-id=${usuario.id}">
-                                                <i class="fas fa-trash"></i> Excluir
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <!-- Caso não existam usuários -->
-                                    <tr th:if="${#lists.isEmpty(usuarios)}">
-                                        <td colspan="5" class="text-center">Nenhum usuário encontrado.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                </tr>
+                <!-- Caso não existam usuários -->
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="5" class="text-center">Nenhum usuário encontrado.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
                         </div>
                     </div>
                 </div>
@@ -131,21 +136,23 @@
         </div>
 
         <!-- Modal para Cadastro de Novo Usuário -->
-<!-- Modal para Cadastro de Novo Usuário -->
 <div class="modal fade" id="novoUsuarioModal" tabindex="-1"
     role="dialog" aria-labelledby="novoUsuarioModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="novoUsuarioModalLabel">Novo Usuário</h5>
+                <h5 class="modal-title" id="novoUsuarioModalLabel">Gerenciar Usuário</h5>
                 <button type="button" class="close" data-dismiss="modal"
                     aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/usuarios}" method="post">
+                <form id="usuarioForm" th:action="@{/usuario}"  method="post">
+                    <!-- Campo oculto para o ID do usuário -->
+                    <input type="hidden" id="usuarioId" name="id">
+                    
                     <!-- Campo Email -->
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -155,7 +162,7 @@
                     <!-- Campo Senha -->
                     <div class="form-group">
                         <label for="senha">Senha</label>
-                        <input type="password" id="senha" name="senha" class="form-control" required>
+                        <input type="password" id="senha" name="senha" class="form-control">
                     </div>
                     
                     <!-- Campo Perfis -->
@@ -171,7 +178,7 @@
                         <label>Ativo</label>
                         <div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="ativo" id="ativoSim" value="true" checked>
+                                <input class="form-check-input" type="radio" name="ativo" id="ativoSim" value="true">
                                 <label class="form-check-label" for="ativoSim">Sim</label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -193,6 +200,27 @@
 </div>
 
 
+<div class="modal fade" id="confirmarExclusaoModal" tabindex="-1" role="dialog" aria-labelledby="confirmarExclusaoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmarExclusaoModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Tem certeza de que deseja excluir este usuário?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <a id="confirmarExclusaoBotao" href="#" class="btn btn-danger">Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
         <!-- Footer -->
         <footer class="main-footer">
             <div class="float-right d-none d-sm-inline">Sistema de Usuários</div>
@@ -200,18 +228,86 @@
             </strong> Todos os direitos reservados.
         </footer>
     </div>
+   
+   
 
     <!-- REQUIRED SCRIPTS -->
     <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
     <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/dist/js/adminlte.min.js}"></script>
+    
+    
     <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Modal de Exclusão
+        const confirmarExclusaoBotao = document.getElementById("confirmarExclusaoBotao");
+
         $('#confirmarExclusaoModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var userId = button.data('id');
-            $('#confirmarExclusaoBotao').attr('href', '/usuarios/excluir/' + userId);
+            const button = event.relatedTarget;
+            const usuarioId = button.getAttribute("data-id");
+            const excluirUrl = `/usuario/excluir/${usuarioId}`;
+            confirmarExclusaoBotao.setAttribute("href", excluirUrl);
         });
-    </script>
+       
+    });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const usuarioIdField = document.getElementById("usuarioId");
+    const emailField = document.getElementById("email");
+    const ativoSimField = document.getElementById("ativoSim");
+    const ativoNaoField = document.getElementById("ativoNao");
+    const perfisField = document.getElementById("perfis");
+
+    $('#novoUsuarioModal').on('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Botão que abriu o modal
+        const usuarioId = button.getAttribute("data-id"); // ID do usuário
+
+        if (usuarioId) {
+            // Requisição ao endpoint para buscar o usuário
+            fetch(`/usuario/${usuarioId}`, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Erro ao buscar o usuário.");
+                    }
+                    return response.json();
+                })
+                .then(usuario => {
+                    // Preenche os campos do modal com os dados retornados
+                    usuarioIdField.value = usuario.id || "";
+                    emailField.value = usuario.email || "";
+                    ativoSimField.checked = usuario.ativo === true;
+                    ativoNaoField.checked = usuario.ativo === false;
+
+                    // Limpa e preenche os perfis
+                    Array.from(perfisField.options).forEach(option => {
+                        option.selected = usuario.perfis.some(perfil => perfil.id === parseInt(option.value));
+                    });
+                })
+                .catch(error => {
+                    console.error("Erro ao carregar os dados do usuário:", error);
+                    alert("Não foi possível carregar os dados do usuário.");
+                });
+        } else {
+            // Caso seja para criar um novo usuário
+            usuarioIdField.value = "";
+            emailField.value = "";
+            ativoSimField.checked = true;
+            ativoNaoField.checked = false;
+            Array.from(perfisField.options).forEach(option => (option.selected = false));
+        }
+    });
+});
+
+</script>
+    
+   
 
 </body>
 </html>
