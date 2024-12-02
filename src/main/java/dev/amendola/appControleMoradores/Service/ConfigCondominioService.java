@@ -1,24 +1,24 @@
 package dev.amendola.appControleMoradores.Service;
 
-import dev.amendola.appControleMoradores.Model.Configuracoes;
-import dev.amendola.appControleMoradores.Repository.ConfiguracoesRepository;
+import dev.amendola.appControleMoradores.Model.ConfigCondominio;
+import dev.amendola.appControleMoradores.Repository.ConfigCondominioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConfiguracoesService {
+public class ConfigCondominioService {
 
     @Autowired
-    private ConfiguracoesRepository configuracoesRepository;
+    private ConfigCondominioRepository configuracoesRepository;
 
     // Busca a configuração existente
-    public Configuracoes buscarConfiguracoes() {
+    public ConfigCondominio buscarConfiguracoes() {
         return configuracoesRepository.findById(1L)
                 .orElseThrow(() -> new RuntimeException("Configurações não encontradas!"));
     }
 
     // Edita ou cria a configuração única
-    public Configuracoes editarConfiguracoes(Configuracoes configuracoes) {
+    public ConfigCondominio editarConfiguracoes(ConfigCondominio configuracoes) {
         // Garante que a configuração tenha o ID fixo de 1L
         configuracoes.setId(1L);
         return configuracoesRepository.save(configuracoes);

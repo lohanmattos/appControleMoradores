@@ -83,7 +83,7 @@ public class UsuarioController {
     
     
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuario(@PathVariable Long id) {
+    public ResponseEntity<Usuario> getUsuario(@PathVariable String id) {
         Usuario usuario = usuarioService.buscarUsuarioPorId(id);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
@@ -94,7 +94,7 @@ public class UsuarioController {
     
     
     @GetMapping("/excluir/{id}")
-    public String excluirUsuario(@PathVariable Long id) {
+    public String excluirUsuario(@PathVariable String id) {
         usuarioService.excluirUsuario(id);
         return "redirect:/usuario/listar";
     }

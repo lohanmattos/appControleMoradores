@@ -34,15 +34,19 @@ public class MoradorService {
             morador.getUsuario().setSenha(senhaCriptografada);
 
             // Busca o perfil padrão no banco de dados
-            Perfil perfilPadrao = perfilRepository.findByDescricao("ROLE_USER")
+            Perfil perfilPadrao = perfilRepository.findByRole("ROLE_USER")
                     .orElseThrow(() -> new RuntimeException("Perfil padrão 'ROLE_USER' não encontrado."));
 
             // Adiciona o perfil padrão ao usuário
             if (morador.getUsuario().getPerfis() == null || morador.getUsuario().getPerfis().isEmpty()) {
                 morador.getUsuario().setPerfis(List.of(perfilPadrao));
             }
+            
+         // Adiciona o perfil padrão ao usuário
+            if (morador.getUsuario().isAtivo() == false) {
+                morador.getUsuario().setAtivo(true);
         }
-
+        }
         // Salva o morador com o usuário
         moradorRepository.save(morador);
     }

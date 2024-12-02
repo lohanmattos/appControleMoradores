@@ -3,8 +3,8 @@ package dev.amendola.appControleMoradores.Model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "configuracoes")
-public class Configuracoes {
+@Table(name = "ConfigCondominio")
+public class ConfigCondominio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,20 +25,16 @@ public class Configuracoes {
     @Column(nullable = false, length = 100)
     private String sindico;
 
-    @Column(nullable = true, length = 255)
-    private String logoUrl;
-
     // Construtores
-    public Configuracoes() {
+    public ConfigCondominio() {
     }
 
-    public Configuracoes(String nomeCondominio, String endereco, String cidade, String estado, String sindico,  String logoUrl) {
+    public ConfigCondominio(String nomeCondominio, String endereco, String cidade, String estado, String sindico,  String logoUrl) {
         this.nomeCondominio = nomeCondominio;
         this.endereco = endereco;
         this.cidade = cidade;
         this.estado = estado;
         this.sindico = sindico;
-        this.logoUrl = logoUrl;
     }
 
     // Getters e Setters
@@ -90,11 +86,4 @@ public class Configuracoes {
         this.sindico = sindico;
     }
 
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
 }

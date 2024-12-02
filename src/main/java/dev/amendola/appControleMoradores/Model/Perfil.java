@@ -11,7 +11,10 @@ public class Perfil {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String descricao; // Nome ou descrição do perfil
+    private String role;
+    
+    @Column(nullable = false, unique = true)
+    private String descricao;
 
     // Getters e Setters
     public Long getId() {
@@ -36,15 +39,29 @@ public class Perfil {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Perfil perfil = (Perfil) o;
-        return Objects.equals(id, perfil.id);
-    }
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Perfil other = (Perfil) obj;
+		return Objects.equals(role, other.role);
+	}
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+	public int hashCode() {
+		return Objects.hash(role);
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+    
+    
 }

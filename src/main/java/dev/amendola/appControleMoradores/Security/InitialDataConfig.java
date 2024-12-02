@@ -1,7 +1,9 @@
 package dev.amendola.appControleMoradores.Security;
 
+import dev.amendola.appControleMoradores.Model.ConfigCondominio;
 import dev.amendola.appControleMoradores.Model.Perfil;
 import dev.amendola.appControleMoradores.Model.Usuario;
+import dev.amendola.appControleMoradores.Repository.ConfigCondominioRepository;
 import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 import dev.amendola.appControleMoradores.Repository.UsuarioRepository;
 import jakarta.annotation.PostConstruct;
@@ -23,6 +25,9 @@ public class InitialDataConfig {
     private PerfilRepository perfilRepository;
 
     @Autowired
+    private ConfigCondominioRepository configCondominioRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     /**
@@ -32,10 +37,9 @@ public class InitialDataConfig {
     @Transactional
     public void init() {
         // Criação dos Perfis
-        Perfil adminPerfil = criarPerfilSeNaoExistir("ROLE_ADMIN");
-        Perfil userPerfil = criarPerfilSeNaoExistir("ROLE_USER");
-        Perfil sindicoPerfil = criarPerfilSeNaoExistir("ROLE_SINDICO");
-
+        Perfil adminPerfil = criarPerfilSeNaoExistir("ROLE_ADMIN", "ADMINISTRADOR");
+        Perfil userPerfil = criarPerfilSeNaoExistir("ROLE_USER", "LOCATÁRIO");
+        Perfil sindicoPerfil = criarPerfilSeNaoExistir("ROLE_SINDICO", "SÍNDICO");
 
         // Criação do Usuário Admin
         criarUsuarioSeNaoExistir("admin@example.com", "admin123", true, adminPerfil);
@@ -45,19 +49,23 @@ public class InitialDataConfig {
         
         // Criação do Usuário Síndico
         criarUsuarioSeNaoExistir("sindico@example.com", "sindico123", true, sindicoPerfil);
+
+        // Criação da Configuração do Condomínio
+        criarConfigCondominioSeNaoExistir("Condomínio Central", "Rua Exemplo, 123", "Cidade Exemplo", "EX", "Síndico Exemplo");
     }
 
     /**
      * Cria um perfil no banco de dados se ele não existir.
      * 
-     * @param nome Nome do perfil
+     * @param role Nome do perfil
      * @param descricao Descrição do perfil
      * @return Perfil criado ou existente
      */
-    private Perfil criarPerfilSeNaoExistir(String descricao) {
-        return perfilRepository.findByDescricao(descricao)
+    private Perfil criarPerfilSeNaoExistir(String role, String descricao) {
+        return perfilRepository.findByRole(role)
                 .orElseGet(() -> {
                     Perfil perfil = new Perfil();
+                    perfil.setRole(role);
                     perfil.setDescricao(descricao);
                     return perfilRepository.save(perfil);
                 });
@@ -79,6 +87,27 @@ public class InitialDataConfig {
             usuario.setAtivo(ativo);
             usuario.setPerfis(Arrays.asList(perfis));
             usuarioRepository.save(usuario);
+        }
+    }
+
+    /**
+     * Cria a configuração do condomínio no banco de dados se ela não existir.
+     *
+     * @param nome Nome do condomínio
+     * @param endereco Endereço do condomínio
+     * @param cidade Cidade do condomínio
+     * @param estado Estado do condomínio
+     * @param sindico Nome do síndico do condomínio
+     */
+    private void criarConfigCondominioSeNaoExistir(String nome, String endereco, String cidade, String estado, String sindico) {
+        if (configCondominioRepository.count() == 0) { // Verifica se a configuração já existe
+            ConfigCondominio configCondominio = new ConfigCondominio();
+            configCondominio.setNomeCondominio(nome);
+            configCondominio.setEndereco(endereco);
+            configCondominio.setCidade(cidade);
+            configCondominio.setEstado(estado);
+            configCondominio.setSindico(sindico);
+            configCondominioRepository.save(configCondominio);
         }
     }
 }

@@ -76,7 +76,6 @@
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
                 <tr>
-                    <th>ID</th>
                     <th>Email</th>
                     <th>Ativo</th>
                     <th>Perfis</th>
@@ -86,7 +85,6 @@
             <tbody>
                 <!-- Loop de usuários -->
                 <tr th:each="usuario : ${usuarios}">
-                    <td th:text="${usuario.id}"></td>
                     <td th:text="${usuario.email}"></td>
                     <td>
                         <span th:text="${usuario.ativo ? 'Ativo' : 'Inativo'}"
@@ -97,12 +95,12 @@
                         <ul class="list-unstyled">
                             <li th:each="perfil : ${usuario.perfis}">
                                 <span class="badge"
-                                      th:classappend="${perfil.descricao == 'ROLE_ADMIN' ? 'badge-primary' 
-                                                    : perfil.descricao == 'ROLE_USER' ? 'badge-secondary' 
-                                                    : perfil.descricao == 'ROLE_SINDICO' ? 'badge-warning' : 'badge-secondary'}"
-                                      th:text="${perfil.descricao == 'ROLE_ADMIN' ? 'Administrador' 
-                                                    : perfil.descricao == 'ROLE_USER' ? 'Morador' 
-                                                    : perfil.descricao == 'ROLE_SINDICO' ? 'Síndico' : 'Desconhecido'}">
+                                      th:classappend="${perfil.role == 'ROLE_ADMIN' ? 'badge-primary' 
+                                                    : perfil.role == 'ROLE_USER' ? 'badge-secondary' 
+                                                    : perfil.role == 'ROLE_SINDICO' ? 'badge-warning' : 'badge-secondary'}"
+                                      th:text="${perfil.role == 'ROLE_ADMIN' ? 'Administrador' 
+                                                    : perfil.role == 'ROLE_USER' ? 'Morador' 
+                                                    : perfil.role == 'ROLE_SINDICO' ? 'Síndico' : 'Desconhecido'}">
                                 </span>
                             </li>
                         </ul>
@@ -169,7 +167,7 @@
                     <div class="form-group">
                         <label for="perfis">Perfis</label>
                         <select id="perfis" name="perfis" class="form-control">
-                            <option th:each="perfil : ${perfis}" th:value="${perfil.id}" th:text="${perfil.descricao}"></option>
+                            <option th:each="perfil : ${perfis}" th:value="${perfil.id}" th:text="${perfil.role}"></option>
                         </select>
                     </div>
 

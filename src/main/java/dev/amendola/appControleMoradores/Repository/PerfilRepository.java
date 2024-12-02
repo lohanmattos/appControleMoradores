@@ -9,4 +9,5 @@ import dev.amendola.appControleMoradores.Model.Perfil;
 @Repository
 public interface PerfilRepository extends JpaRepository<Perfil, Long> {
     Optional<Perfil> findByDescricao(String descricao);
+    Optional<Perfil> findByRole(String role);
 }

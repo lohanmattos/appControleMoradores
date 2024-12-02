@@ -94,12 +94,12 @@ public class UsuarioService implements UserDetailsService {
 			return repository.save(usuario);
 		}
 	   	    
-		public Usuario buscarUsuarioPorId(Long id) {
+		public Usuario buscarUsuarioPorId(String id) {
 		    return repository.findById(id)
 		        .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + id));
 		}
 
-		public void excluirUsuario(Long id) {
+		public void excluirUsuario(String id) {
 			// TODO Auto-generated method stub
 			
 			Usuario user = this.buscarUsuarioPorId(id);

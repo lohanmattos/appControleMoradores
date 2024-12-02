@@ -7,6 +7,6 @@ import dev.amendola.appControleMoradores.Model.Usuario;
 
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     Usuario findByEmail(String email);
 }
