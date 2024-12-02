@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import dev.amendola.appControleMoradores.Model.Morador;
+import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
 import dev.amendola.appControleMoradores.Model.Perfil;
-import dev.amendola.appControleMoradores.Repository.MoradorRepository;
+import dev.amendola.appControleMoradores.Repository.UsuarioResponsavelRepository;
 import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 
 @Service
-public class MoradorService {
+public class UsuarioResponsavelService {
 
     @Autowired
-    private MoradorRepository moradorRepository;
+    private UsuarioResponsavelRepository moradorRepository;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -23,11 +23,11 @@ public class MoradorService {
     @Autowired
     private PerfilRepository perfilRepository;
 
-    public List<Morador> buscarTodos() {
+    public List<UsuarioResponsavel> buscarTodos() {
         return moradorRepository.findAll();
     }
 
-    public void salvar(Morador morador) {
+    public void salvar(UsuarioResponsavel morador) {
         if (morador.getUsuario() != null) {
             // Criptografa a senha do usuário
             String senhaCriptografada = passwordEncoder.encode(morador.getUsuario().getSenha());
@@ -51,7 +51,7 @@ public class MoradorService {
         moradorRepository.save(morador);
     }
 
-    public Morador buscarPorCpf(String cpf) {
+    public UsuarioResponsavel buscarPorCpf(String cpf) {
         return moradorRepository.findByCpf(cpf);
     }
 
@@ -59,8 +59,13 @@ public class MoradorService {
         moradorRepository.deleteById(id);
     }
     
-    public Morador buscarPorId(Long id) {
+    public UsuarioResponsavel buscarPorId(Long id) {
         return moradorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Morador não encontrado."));
     }
+
+	public Object listarTodos() {
+		// TODO Stub de método gerado automaticamente
+		return moradorRepository.findAll();
+	}
 }

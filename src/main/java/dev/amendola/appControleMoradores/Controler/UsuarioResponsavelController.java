@@ -8,27 +8,27 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import dev.amendola.appControleMoradores.Model.Morador;
-import dev.amendola.appControleMoradores.Service.MoradorService;
+import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
+import dev.amendola.appControleMoradores.Service.UsuarioResponsavelService;
 
 @Controller
 @RequestMapping("/moradores")
-public class MoradorController {
+public class UsuarioResponsavelController {
 
     @Autowired
-    private MoradorService moradorService;
+    private UsuarioResponsavelService moradorService;
 
     @GetMapping
     public String listarMoradores(Model model) {
-        List<Morador> moradores = moradorService.buscarTodos();
+        List<UsuarioResponsavel> moradores = moradorService.buscarTodos();
         model.addAttribute("moradores", moradores);
-        model.addAttribute("morador", new Morador()); // Para o modal de cadastro
+        model.addAttribute("morador", new UsuarioResponsavel()); // Para o modal de cadastro
 
         return "morador/moradores";
     }
 
     @PostMapping
-    public String cadastrarOuAtualizarMorador(@ModelAttribute Morador morador, RedirectAttributes attributes) {
+    public String cadastrarOuAtualizarMorador(@ModelAttribute UsuarioResponsavel morador, RedirectAttributes attributes) {
         try {
             moradorService.salvar(morador);
             if (morador.getId() == null) {
@@ -44,7 +44,7 @@ public class MoradorController {
 
     @GetMapping("/editar/{id}")
     public String editarMorador(@PathVariable Long id, Model model) {
-        Morador morador = moradorService.buscarPorId(id);
+        UsuarioResponsavel morador = moradorService.buscarPorId(id);
         model.addAttribute("morador", morador);
         return "morador/moradores";
     }

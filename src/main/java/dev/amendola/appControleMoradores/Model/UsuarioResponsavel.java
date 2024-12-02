@@ -1,10 +1,12 @@
 package dev.amendola.appControleMoradores.Model;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Morador {
+public class UsuarioResponsavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,14 +19,14 @@ public class Morador {
     private String cpf;
 
     @Column(nullable = false)
-    private String endereco;
-
-    @Column(nullable = false)
     private String telefone;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private Usuario usuario;
+    private Usuario usuario;   
+    
+    @OneToMany(mappedBy = "responsavel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Dependente> dependentes;
 
     // Getters and Setters
     public Long getId() {
@@ -51,14 +53,6 @@ public class Morador {
         this.cpf = cpf;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -79,7 +73,7 @@ public class Morador {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Morador morador = (Morador) o;
+        UsuarioResponsavel morador = (UsuarioResponsavel) o;
         return Objects.equals(id, morador.id);
     }
 
@@ -87,4 +81,14 @@ public class Morador {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+	public List<Dependente> getDependentes() {
+		return dependentes;
+	}
+
+	public void setDependentes(List<Dependente> dependentes) {
+		this.dependentes = dependentes;
+	}
+    
+    
 }

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Cadastro de Imóvel</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+<!-- AdminLTE -->
+<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+	rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+
+		<!-- Navbar -->
+		<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+		<!-- Sidebar -->
+		<div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+		<!-- Content Wrapper -->
+		<div class="content-wrapper">
+			<!-- Content Header -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0">Cadastro de Imóvel</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+								<li class="breadcrumb-item active">Cadastro de Imóvel</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Main Content -->
+			<section class="content">
+				<div class="container-fluid">
+
+					<!-- Mensagem de Sucesso -->
+					<div th:if="${param.sucesso}" class="alert alert-success"
+						role="alert">
+						<i class="fas fa-check-circle"></i> <span> Imóvel
+							cadastrado com sucesso!</span>
+					</div>
+
+					<!-- Formulário -->
+					<div class="card card-primary">
+						<div class="card-header">
+							<h3 class="card-title">Informações do Imóvel</h3>
+						</div>
+						<form th:action="@{/imoveis}" th:object="${imovel}" method="post">
+							<div class="card-body">
+							<!-- Campo hidden para o ID do imóvel (apenas no caso de edição) -->
+        <input type="hidden" th:if="${imovel.id != null}" th:field="*{id}" />
+								<div class="row">
+									<!-- Descrição -->
+									<div class="col-md-6 mb-3">
+										<label for="descricao" class="form-label">Descrição</label> <input
+											type="text" id="descricao" name="descricao"
+											th:field="*{descricao}" class="form-control" required>
+									</div>
+									<!-- Endereço -->
+									<div class="col-md-6 mb-3">
+										<label for="endereco" class="form-label">Endereço</label> <input
+											type="text" id="endereco" name="endereco"
+											th:field="*{endereco}" class="form-control" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="responsavel" class="form-label">Responsável</label>
+									<select id="responsavel" name="responsavel.id"
+										th:field="*{responsavel.id}" class="form-control">
+										<option value="" selected>Selecione um responsável
+											(opcional)</option>
+										<option th:each="responsavel : ${responsaveis}"
+											th:value="${responsavel.id}" th:text="${responsavel.nome}">
+										</option>
+									</select>
+								</div>
+
+							</div>
+							<div class="card-footer">
+								<button type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<!-- Footer -->
+		<footer class="main-footer">
+			<div class="float-right d-none d-sm-inline">Gerencie com
+				eficiência!</div>
+			<strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.
+			</strong> Todos os direitos reservados.
+		</footer>
+	</div>
+
+	<!-- REQUIRED SCRIPTS -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+</body>
+</html>
