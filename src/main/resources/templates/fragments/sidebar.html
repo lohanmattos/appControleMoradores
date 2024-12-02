@@ -1,13 +1,11 @@
-
 <!-- Main Sidebar Container -->
 <aside
 	class="main-sidebar sidebar-dark-primary elevation-4 layout-fixed"
 	th:fragment="sidebar">
 	<!-- Brand Logo -->
-	<!-- Brand Logo -->
-	<a href="/" class="brand-link"> <img src="/icon.png"
-		alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-		style="opacity: 1"> <span class="brand-text font-weight-light">CorujaCondo</span>
+	<a href="/" class="brand-link"> 
+        <img src="/icon.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 1"> 
+        <span class="brand-text font-weight-light">CorujaCondo</span>
 	</a>
 
 	<!-- Sidebar -->
@@ -21,68 +19,69 @@
 				<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-				<li class="nav-item"><a href="#" class="nav-link"> <i
-						class="nav-icon fas fa-money-bill-wave"></i>
-						<p>
-							Finanças <i class="right fas fa-angle-left"></i>
-						</p>
+				<li class="nav-item"><a href="#" class="nav-link"> 
+                    <i class="nav-icon fas fa-wallet"></i>
+					<p>
+						Finanças <i class="right fas fa-angle-left"></i>
+					</p>
 				</a>
 					<ul class="nav nav-treeview">
 						<!-- Dashboard Financeiro -->
 						<li class="nav-item"><a href="/dashFinanceiro"
-							class="nav-link"> <i class="fas fa-chart-line nav-icon"></i>
-								<p>Dashboard</p>
+							class="nav-link"> 
+                            <i class="fas fa-chart-pie nav-icon"></i>
+							<p>Dashboard</p>
 						</a></li>
 						<!-- Contas a Receber -->
 						<li class="nav-item"><a href="/receitas" class="nav-link">
-								<i class="fas fa-hand-holding-usd nav-icon"></i>
-								<p>Contas a Receber</p>
+							<i class="fas fa-money-check-alt nav-icon"></i>
+							<p>Contas a Receber</p>
 						</a></li>
 						<!-- Contas a Pagar -->
 						<li class="nav-item"><a href="/despesas" class="nav-link">
-								<i class="fas fa-file-invoice-dollar nav-icon"></i>
-								<p>Contas a Pagar</p>
+							<i class="fas fa-file-invoice nav-icon"></i>
+							<p>Contas a Pagar</p>
 						</a></li>
 						<!-- Categorias de Contas -->
 						<li class="nav-item"><a href="/categorias" class="nav-link">
-								<i class="fas fa-list-alt nav-icon"></i>
-								<p>Categorias de Contas</p>
+							<i class="fas fa-folder-open nav-icon"></i>
+							<p>Categorias de Contas</p>
 						</a></li>
 					</ul></li>
-					
-			<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-users"></i>
-        <p>
-            Usuários <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="/usuario/listar" class="nav-link">
-                <i class="fas fa-user-cog nav-icon"></i>
-                <p>Gerenciar Usuários</p>
-            </a>
-        </li>
-    </ul>
-</li>
-			<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-home"></i>
-        <p>
-            Moradores <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="/moradores" class="nav-link">
-                <i class="fas fa-user-friends nav-icon"></i>
-                <p>Gerenciar Moradores</p>
-            </a>
-        </li>
-    </ul>
-</li>
-			
+
+				<li class="nav-item"><a href="#" class="nav-link"> 
+                    <i class="nav-icon fas fa-user-shield"></i>
+					<p>
+						Usuários <i class="right fas fa-angle-left"></i>
+					</p>
+				</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item"><a href="/usuario/listar"
+							class="nav-link"> 
+                            <i class="fas fa-user-edit nav-icon"></i>
+							<p>Gerenciar Usuários</p>
+						</a></li>
+					</ul></li>
+				<li class="nav-item"><a href="#" class="nav-link"> 
+                    <i class="nav-icon fas fa-building"></i>
+					<p>
+						Condomínio <i class="right fas fa-angle-left"></i>
+					</p>
+				</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item"><a href="/moradores" class="nav-link">
+							<i class="fas fa-users nav-icon"></i>
+							<p>Gerenciar Moradores</p>
+						</a></li>
+						<li class="nav-item"><a href="/imoveis" class="nav-link">
+							<i class="fas fa-home nav-icon"></i>
+							<p>Gerenciar Imóveis</p>
+						</a></li>
+						<li class="nav-item"><a href="/configuracoes" class="nav-link">
+							<i class="fas fa-cogs nav-icon"></i>
+							<p>Configurações</p>
+						</a></li>
+					</ul></li>
 			</ul>
 		</nav>
 		<!-- /.sidebar-menu -->
