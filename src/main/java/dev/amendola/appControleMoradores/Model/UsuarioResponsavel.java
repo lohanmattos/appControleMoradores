@@ -25,8 +25,6 @@ public class UsuarioResponsavel {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;   
     
-    @OneToMany(mappedBy = "responsavel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Dependente> dependentes;
 
     // Getters and Setters
     public Long getId() {
@@ -82,13 +80,5 @@ public class UsuarioResponsavel {
         return Objects.hash(id);
     }
 
-	public List<Dependente> getDependentes() {
-		return dependentes;
-	}
-
-	public void setDependentes(List<Dependente> dependentes) {
-		this.dependentes = dependentes;
-	}
-    
     
 }

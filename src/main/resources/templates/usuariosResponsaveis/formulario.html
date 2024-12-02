@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Cadastro de Usuário Responsável</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Sidebar -->
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0" th:text="${usuarioResponsavel.id == null ? 'Novo Usuário Responsável' : 'Editar Usuário Responsável'}"></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/usuariosResponsaveis" th:href="@{/usuariosResponsaveis}">Usuários Responsáveis</a></li>
+                            <li class="breadcrumb-item active" th:text="${usuarioResponsavel.id == null ? 'Novo' : 'Editar'}"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Mensagem de Sucesso -->
+                <div th:if="${param.sucesso}" class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle"></i> <span th:text="${param.sucesso}">Usuário cadastrado com sucesso!</span>
+                </div>
+
+                <!-- Formulário -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Cadastro de Usuário Responsável</h3>
+                    </div>
+                    <form th:action="@{/usuariosResponsaveis}" th:object="${usuarioResponsavel}" method="post">
+                        <div class="card-body">
+                            <!-- Campo oculto para o ID do usuário (apenas no caso de edição) -->
+                            <input type="hidden" th:if="${usuarioResponsavel.id != null}" th:field="*{id}" />
+
+                            <!-- Seção: Dados Pessoais -->
+                            <div class="mb-4">
+                                <h5 class="text-primary">Dados Pessoais</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nome" class="form-label">Nome</label>
+                                        <input type="text" id="nome" th:field="*{nome}" class="form-control" required>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cpf" class="form-label">CPF</label>
+                                        <input type="text" id="cpf" th:field="*{cpf}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="telefone" class="form-label">Telefone</label>
+                                        <input type="text" id="telefone" th:field="*{telefone}" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Seção: Dados de Acesso -->
+                            <div>
+                                <h5 class="text-primary">Dados de Acesso</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" id="email" th:field="*{usuario.email}" class="form-control" required>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="senha" class="form-label">Senha</label>
+                                        <input type="password" id="senha" th:field="*{usuario.senha}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                        <input type="password" id="confirmarSenha" class="form-control">
+                                    </div>
+                                </div>
+
+                                <!-- Perfis -->
+                                <div class="form-group">
+                                    <label for="perfis" class="form-label">Perfis</label>
+                                    <select id="perfis" name="perfis" class="form-control">
+                                        <option th:each="perfil : ${perfis}" th:value="${perfil.id}" th:text="${perfil.role}"></option>
+                                    </select>
+                                </div>
+
+                                <!-- Campo Ativo -->
+                                <div class="form-group">
+                                    <label class="form-label">Ativo</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="ativo" id="ativoSim" value="true" th:checked="*{usuario.ativo}">
+                                            <label class="form-check-label" for="ativoSim">Sim</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="ativo" id="ativoNao" value="false" th:checked="*{!usuario.ativo}">
+                                            <label class="form-check-label" for="ativoNao">Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <a th:href="@{/usuariosResponsaveis}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-inline">Gerencie com eficiência!</div>
+        <strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.</strong> Todos os direitos reservados.
+    </footer>
+</div>
+
+<!-- REQUIRED SCRIPTS -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+</body>
+</html>

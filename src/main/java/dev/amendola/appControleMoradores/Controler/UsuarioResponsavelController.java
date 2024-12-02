@@ -1,62 +1,46 @@
 package dev.amendola.appControleMoradores.Controler;
 
-import java.util.List;
-
+import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
+import dev.amendola.appControleMoradores.Service.UsuarioResponsavelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
-import dev.amendola.appControleMoradores.Service.UsuarioResponsavelService;
 
 @Controller
-@RequestMapping("/moradores")
+@RequestMapping("/usuariosResponsaveis")
 public class UsuarioResponsavelController {
 
     @Autowired
-    private UsuarioResponsavelService moradorService;
+    private UsuarioResponsavelService responsavelService;
 
     @GetMapping
-    public String listarMoradores(Model model) {
-        List<UsuarioResponsavel> moradores = moradorService.buscarTodos();
-        model.addAttribute("moradores", moradores);
-        model.addAttribute("morador", new UsuarioResponsavel()); // Para o modal de cadastro
+    public String listarUsuariosResponsaveis(Model model) {
+        model.addAttribute("usuariosResponsaveis", responsavelService.listarTodos());
+        return "usuariosResponsaveis/listar";
+    }
 
-        return "morador/moradores";
+    @GetMapping("/novo")
+    public String novoUsuarioResponsavel(Model model) {
+        model.addAttribute("usuarioResponsavel", new UsuarioResponsavel());
+        return "usuariosResponsaveis/formulario";
     }
 
     @PostMapping
-    public String cadastrarOuAtualizarMorador(@ModelAttribute UsuarioResponsavel morador, RedirectAttributes attributes) {
-        try {
-            moradorService.salvar(morador);
-            if (morador.getId() == null) {
-                attributes.addFlashAttribute("success", "Morador cadastrado com sucesso!");
-            } else {
-                attributes.addFlashAttribute("success", "Morador atualizado com sucesso!");
-            }
-        } catch (Exception e) {
-            attributes.addFlashAttribute("error", "Erro ao salvar morador.");
-        }
-        return "redirect:/moradores";
+    public String salvarUsuarioResponsavel(@ModelAttribute UsuarioResponsavel usuarioResponsavel) {
+        responsavelService.salvar(usuarioResponsavel);
+        return "redirect:/usuariosResponsaveis";
     }
 
     @GetMapping("/editar/{id}")
-    public String editarMorador(@PathVariable Long id, Model model) {
-        UsuarioResponsavel morador = moradorService.buscarPorId(id);
-        model.addAttribute("morador", morador);
-        return "morador/moradores";
+    public String editarUsuarioResponsavel(@PathVariable Long id, Model model) {
+        model.addAttribute("usuarioResponsavel", responsavelService.buscarPorId(id));
+        return "usuariosResponsaveis/formulario";
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluirMorador(@PathVariable Long id, RedirectAttributes attributes) {
-        try {
-            moradorService.excluir(id);
-            attributes.addFlashAttribute("success", "Morador excluído com sucesso!");
-        } catch (Exception e) {
-            attributes.addFlashAttribute("error", "Erro ao excluir morador.");
-        }
-        return "redirect:/moradores";
+    public String excluirUsuarioResponsavel(@PathVariable Long id) {
+        responsavelService.excluir(id);
+        return "redirect:/usuariosResponsaveis";
     }
 }

@@ -16,9 +16,6 @@ public class Dependente {
     @Column(nullable = false)
     private String parentesco; // Exemplo: Filho, Esposa, etc.
 
-    @ManyToOne
-    @JoinColumn(name = "responsavel_id", nullable = false)
-    private UsuarioResponsavel responsavel;
 
     // Getters e Setters
     public Long getId() {
@@ -45,12 +42,5 @@ public class Dependente {
         this.parentesco = parentesco;
     }
 
-    public UsuarioResponsavel getResponsavel() {
-        return responsavel;
-    }
-
-    public void setResponsavel(UsuarioResponsavel responsavel) {
-        this.responsavel = responsavel;
-    }
 
 }

@@ -60,6 +60,8 @@ public class ImovelController {
     @GetMapping("/editar/{id}")
     public String editarImovel(@PathVariable Long id, Model model) {
         Imovel imovel = imovelService.buscarPorId(id);
+        model.addAttribute("responsaveis", responsavelService.listarTodos());
+
         model.addAttribute("imovel", imovel);
         return "imoveis/formulario";
     }
