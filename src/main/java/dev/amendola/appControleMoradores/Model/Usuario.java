@@ -30,6 +30,7 @@ public class Usuario {
         inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
     private List<Perfil> perfis;
+   
     
     // Getters e Setters
     public String getId() {
@@ -83,5 +84,6 @@ public class Usuario {
 	public Usuario orElseThrow(Object object) {
 		// TODO Stub de método gerado automaticamente
 		return null;
-	}    
+	}
+	
 }

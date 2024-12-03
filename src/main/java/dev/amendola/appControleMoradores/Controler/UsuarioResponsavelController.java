@@ -2,8 +2,10 @@ package dev.amendola.appControleMoradores.Controler;
 
 import dev.amendola.appControleMoradores.Model.Imovel;
 import dev.amendola.appControleMoradores.Model.Perfil;
+import dev.amendola.appControleMoradores.Model.Usuario;
 import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
 import dev.amendola.appControleMoradores.Repository.PerfilRepository;
+import dev.amendola.appControleMoradores.Repository.UsuarioRepository;
 import dev.amendola.appControleMoradores.Service.UsuarioResponsavelService;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class UsuarioResponsavelController {
 
     @Autowired
     private UsuarioResponsavelService responsavelService;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     
     @Autowired
     private PerfilRepository perfilRepository;
@@ -55,8 +60,10 @@ public class UsuarioResponsavelController {
     }
 
     @GetMapping("/editar/{id}")
-    public String editarUsuarioResponsavel(@PathVariable Long id, Model model) {
-        model.addAttribute("usuarioResponsavel", responsavelService.buscarPorId(id));
+    public String editarUsuarioResponsavel(@PathVariable String id, Model model) {
+      
+    	
+        model.addAttribute("usuarioResponsavel", new UsuarioResponsavel());
         // Adiciona a lista de perfis disponíveis ao modelo
         List<Perfil> perfis = perfilRepository.findAll();
         

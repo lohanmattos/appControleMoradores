@@ -37,9 +37,9 @@ public class InitialDataConfig {
     @Transactional
     public void init() {
         // Criação dos Perfis
-        Perfil adminPerfil = criarPerfilSeNaoExistir("ROLE_ADMIN", "ADMINISTRADOR");
-        Perfil userPerfil = criarPerfilSeNaoExistir("ROLE_USER", "LOCATÁRIO");
-        Perfil sindicoPerfil = criarPerfilSeNaoExistir("ROLE_SINDICO", "SÍNDICO");
+        Perfil adminPerfil = criarPerfilSeNaoExistir("ADMIN", "ADMINISTRADOR");
+        Perfil userPerfil = criarPerfilSeNaoExistir("USUARIO", "LOCATÁRIO");
+        Perfil sindicoPerfil = criarPerfilSeNaoExistir("SINDICO", "SÍNDICO");
 
         // Criação do Usuário Admin
         criarUsuarioSeNaoExistir("admin@example.com", "admin123", true, adminPerfil);

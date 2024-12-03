@@ -95,22 +95,28 @@
                         <ul class="list-unstyled">
                             <li th:each="perfil : ${usuario.perfis}">
                                 <span class="badge"
-                                      th:classappend="${perfil.role == 'ROLE_ADMIN' ? 'badge-primary' 
-                                                    : perfil.role == 'ROLE_USER' ? 'badge-secondary' 
-                                                    : perfil.role == 'ROLE_SINDICO' ? 'badge-warning' : 'badge-secondary'}"
-                                      th:text="${perfil.role == 'ROLE_ADMIN' ? 'Administrador' 
-                                                    : perfil.role == 'ROLE_USER' ? 'Morador' 
-                                                    : perfil.role == 'ROLE_SINDICO' ? 'Síndico' : 'Desconhecido'}">
+                                      th:classappend="${perfil.role == 'ADMIN' ? 'badge-primary' 
+                                                    : perfil.role == 'USUARIO' ? 'badge-secondary' 
+                                                    : perfil.role == 'SINDICO' ? 'badge-warning' : 'badge-secondary'}"
+                                      th:text="${perfil.role == 'ADMIN' ? 'Administrador' 
+                                                    : perfil.role == 'USUARIO' ? 'Locatário' 
+                                                    : perfil.role == 'SINDICO' ? 'Síndico' : 'Desconhecido'}">
                                 </span>
                             </li>
                         </ul>
                     </td>
                    <td>
+
     <!-- Botão para abrir o modal de edição -->
     <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#novoUsuarioModal" th:attr="data-id=${usuario.id}">
-        <i class="fas fa-edit"></i> Editar
+        <i class="fas fa-edit"></i> Dados Acesso
     </button>
 
+                     <!-- Botão para abrir o modal de edição dados pessoais -->
+    <a class="btn btn-info btn-sm" th:href="@{/usuariosResponsaveis/editar/{id}(id=${usuario.id})}">
+        <i class="fas fa-edit"></i> Dados Pessoais 
+    </a>
+    
     <!-- Botão para abrir o modal de exclusão -->
     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmarExclusaoModal" th:attr="data-id=${usuario.id}">
         <i class="fas fa-trash"></i> Excluir
