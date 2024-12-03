@@ -5,9 +5,7 @@ import dev.amendola.appControleMoradores.Model.TipoCategoria;
 import dev.amendola.appControleMoradores.Service.CategoriaContasService;
 import dev.amendola.appControleMoradores.Service.ReceitaService;
 
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

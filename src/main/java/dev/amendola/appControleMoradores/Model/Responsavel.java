@@ -2,11 +2,10 @@ package dev.amendola.appControleMoradores.Model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class UsuarioResponsavel {
+public class Responsavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +70,7 @@ public class UsuarioResponsavel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UsuarioResponsavel morador = (UsuarioResponsavel) o;
+        Responsavel morador = (Responsavel) o;
         return Objects.equals(id, morador.id);
     }
 

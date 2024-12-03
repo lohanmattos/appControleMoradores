@@ -2,10 +2,10 @@ package dev.amendola.appControleMoradores.Service;
 
 import dev.amendola.appControleMoradores.Model.Perfil;
 import dev.amendola.appControleMoradores.Model.Usuario;
-import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
+import dev.amendola.appControleMoradores.Model.Responsavel;
 import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 import dev.amendola.appControleMoradores.Repository.UsuarioRepository;
-import dev.amendola.appControleMoradores.Repository.UsuarioResponsavelRepository;
+import dev.amendola.appControleMoradores.Repository.ResponsavelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UsuarioResponsavelService {
+public class ResponsavelService {
 
     @Autowired
-    private UsuarioResponsavelRepository responsavelRepository;
+    private ResponsavelRepository responsavelRepository;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -28,16 +28,16 @@ public class UsuarioResponsavelService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<UsuarioResponsavel> listarTodos() {
+    public List<Responsavel> listarTodos() {
         return responsavelRepository.findAll();
     }
 
-    public UsuarioResponsavel buscarPorId(Long id) {
+    public Responsavel buscarPorId(Long id) {
         return responsavelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário Responsável não encontrado."));
     }
 
-    public void salvar(UsuarioResponsavel responsavel) {
+    public void salvar(Responsavel responsavel) {
         if (responsavel.getUsuario() != null) {
             Usuario usuarioExistente = null;
 

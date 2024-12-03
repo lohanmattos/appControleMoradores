@@ -1,12 +1,11 @@
 package dev.amendola.appControleMoradores.Controler;
 
-import dev.amendola.appControleMoradores.Model.Imovel;
 import dev.amendola.appControleMoradores.Model.Perfil;
 import dev.amendola.appControleMoradores.Model.Usuario;
-import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
+import dev.amendola.appControleMoradores.Model.Responsavel;
 import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 import dev.amendola.appControleMoradores.Repository.UsuarioRepository;
-import dev.amendola.appControleMoradores.Service.UsuarioResponsavelService;
+import dev.amendola.appControleMoradores.Service.ResponsavelService;
 
 import java.util.List;
 
@@ -16,11 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/usuariosResponsaveis")
-public class UsuarioResponsavelController {
+@RequestMapping("/responsaveis")
+public class ResponsavelController {
 
     @Autowired
-    private UsuarioResponsavelService responsavelService;
+    private ResponsavelService responsavelService;
     
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -31,49 +30,49 @@ public class UsuarioResponsavelController {
     @GetMapping
     public String listarUsuariosResponsaveis(Model model) {
         model.addAttribute("usuariosResponsaveis", responsavelService.listarTodos());
-        return "usuariosResponsaveis/listar";
+        return "responsaveis/listar";
     }
     
     @GetMapping("/{id}")
     public String buscarPorId(@PathVariable Long id, Model model) {
-        UsuarioResponsavel usuarioResponsavel = responsavelService.buscarPorId(id);
-        model.addAttribute("usuarioResponsavel", usuarioResponsavel);
-        return "usuariosResponsaveis/detalhes";
+        Responsavel responsavel = responsavelService.buscarPorId(id);
+        model.addAttribute("usuarioResponsavel", responsavel);
+        return "responsaveis/detalhes";
     }
 
     @GetMapping("/novo")
     public String novoUsuarioResponsavel(Model model) {
-        model.addAttribute("usuarioResponsavel", new UsuarioResponsavel());
+        model.addAttribute("usuarioResponsavel", new Responsavel());
         
         // Adiciona a lista de perfis disponíveis ao modelo
         List<Perfil> perfis = perfilRepository.findAll();
         
         model.addAttribute("perfis", perfis);
         
-        return "usuariosResponsaveis/formulario";
+        return "responsaveis/formulario";
     }
 
     @PostMapping
-    public String salvarUsuarioResponsavel(@ModelAttribute UsuarioResponsavel usuarioResponsavel) {
-        responsavelService.salvar(usuarioResponsavel);
-        return "redirect:/usuariosResponsaveis";
+    public String salvarUsuarioResponsavel(@ModelAttribute Responsavel responsavel) {
+        responsavelService.salvar(responsavel);
+        return "redirect:/responsaveis";
     }
 
     @GetMapping("/editar/{id}")
     public String editarUsuarioResponsavel(@PathVariable String id, Model model) {
       
     	
-        model.addAttribute("usuarioResponsavel", new UsuarioResponsavel());
+        model.addAttribute("usuarioResponsavel", new Responsavel());
         // Adiciona a lista de perfis disponíveis ao modelo
         List<Perfil> perfis = perfilRepository.findAll();
         
         model.addAttribute("perfis", perfis);
-        return "usuariosResponsaveis/formulario";
+        return "responsaveis/formulario";
     }
 
     @GetMapping("/excluir/{id}")
     public String excluirUsuarioResponsavel(@PathVariable Long id) {
         responsavelService.excluir(id);
-        return "redirect:/usuariosResponsaveis";
+        return "redirect:/responsaveis";
     }
 }

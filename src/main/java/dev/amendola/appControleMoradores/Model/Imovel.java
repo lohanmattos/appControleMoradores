@@ -19,7 +19,7 @@ public class Imovel {
 
     @OneToOne
     @JoinColumn(name = "responsavel_id", nullable = true) // Pode ser nulo para imóveis sem responsável
-    private UsuarioResponsavel responsavel;
+    private Responsavel responsavel;
 
 	public Long getId() {
 		return id;
@@ -45,11 +45,11 @@ public class Imovel {
 		this.endereco = endereco;
 	}
 
-	public UsuarioResponsavel getResponsavel() {
+	public Responsavel getResponsavel() {
 		return responsavel;
 	}
 
-	public void setResponsavel(UsuarioResponsavel responsavel) {
+	public void setResponsavel(Responsavel responsavel) {
 		this.responsavel = responsavel;
 	}
 

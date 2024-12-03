@@ -18,7 +18,7 @@ import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 import dev.amendola.appControleMoradores.Service.UsuarioService;
 
 @Controller
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class UsuarioController {
     public String userProfile(Model model, Principal principal) {
         Usuario user = usuarioService.findByEmail(principal.getName());
         model.addAttribute("user", user); // Adiciona o objeto usuário ao modelo
-        return "usuario/usuario-perfil";
+        return "usuarios/perfil";
     }
 
     @PostMapping("/perfil")
@@ -52,7 +52,7 @@ public class UsuarioController {
             model.addAttribute("error", "Erro ao atualizar o perfil.");
         }
 
-        return "redirect:/usuario/perfil";
+        return "redirect:/usuarios/perfil";
     }
     
     @GetMapping("/listar")
@@ -63,7 +63,7 @@ public class UsuarioController {
         
         model.addAttribute("perfis", perfis); // Adiciona a lista de perfis ao modelo
         model.addAttribute("usuarios", usuarios); // Adiciona a lista de usuários ao modelo
-        return "usuario/lista-usuarios";
+        return "usuarios/listar";
     }
     
     
@@ -78,7 +78,7 @@ public class UsuarioController {
             model.addAttribute("error", "Erro ao atualizar o perfil.");
         }
 
-        return "redirect:/usuario/listar";
+        return "redirect:/usuarios/listar";
     }
     
     
@@ -96,7 +96,7 @@ public class UsuarioController {
     @GetMapping("/excluir/{id}")
     public String excluirUsuario(@PathVariable String id) {
         usuarioService.excluirUsuario(id);
-        return "redirect:/usuario/listar";
+        return "redirect:/usuarios/listar";
     }
 
 }

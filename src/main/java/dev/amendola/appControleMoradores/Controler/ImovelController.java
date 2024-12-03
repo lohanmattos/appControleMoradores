@@ -1,9 +1,9 @@
 package dev.amendola.appControleMoradores.Controler;
 
 import dev.amendola.appControleMoradores.Model.Imovel;
-import dev.amendola.appControleMoradores.Model.UsuarioResponsavel;
+import dev.amendola.appControleMoradores.Model.Responsavel;
 import dev.amendola.appControleMoradores.Service.ImovelService;
-import dev.amendola.appControleMoradores.Service.UsuarioResponsavelService;
+import dev.amendola.appControleMoradores.Service.ResponsavelService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class ImovelController {
     private ImovelService imovelService;
     
     @Autowired
-    private UsuarioResponsavelService responsavelService;
+    private ResponsavelService responsavelService;
 
     @GetMapping
     public String listarTodos(Model model) {
@@ -47,7 +47,7 @@ public class ImovelController {
     @PostMapping
     public String salvar(@ModelAttribute Imovel imovel) {
         if (imovel.getResponsavel() != null && imovel.getResponsavel().getId() != null) {
-            UsuarioResponsavel responsavel = responsavelService.buscarPorId(imovel.getResponsavel().getId());
+            Responsavel responsavel = responsavelService.buscarPorId(imovel.getResponsavel().getId());
             imovel.setResponsavel(responsavel); // Associa o responsável, se fornecido
         } else {
             imovel.setResponsavel(null); // Permite imóvel sem responsável
