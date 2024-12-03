@@ -86,6 +86,9 @@
         <td th:text="${imovel.endereco}"></td>
         <td th:text="${imovel.responsavel != null ? imovel.responsavel.nome : 'Sem responsável'}"></td>
         <td>
+        <a th:href="@{/imoveis/{id}(id=${imovel.id})}" class="btn btn-info btn-sm">
+    <i class="fas fa-eye"></i> Detalhes
+</a>
             <a th:href="@{/imoveis/editar/{id}(id=${imovel.id})}" class="btn btn-info btn-sm">
                 <i class="fas fa-edit"></i> Editar
             </a>

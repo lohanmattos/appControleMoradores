@@ -88,14 +88,17 @@
                                 <h5 class="text-primary">Dados de Acesso</h5>
                                 <hr>
                                 <div class="row">
+                                 <!-- Campo oculto para o ID do usuário -->
+<input type="hidden" th:field="*{usuario.id}" />
                                     <div class="col-md-6 mb-3">
+                                   
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="email" id="email" th:field="*{usuario.email}" class="form-control" required>
+                                        <input type="email" id="email" th:field="*{usuario.email}" class="form-control" >
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label for="senha" class="form-label">Senha</label>
-                                        <input type="password" id="senha" th:field="*{usuario.senha}" class="form-control" required>
+                                        <input type="password" id="senha" th:field="*{usuario.senha}" class="form-control" >
                                     </div>
                                 </div>
                                 <div class="row">
@@ -109,7 +112,7 @@
                                 <div class="form-group">
                                     <label for="perfis" class="form-label">Perfis</label>
                                     <select id="perfis" name="perfis" class="form-control">
-                                        <option th:each="perfil : ${perfis}" th:value="${perfil.id}" th:text="${perfil.role}"></option>
+                                        <option th:each="perfil : ${perfis}" th:value="${perfil.id}" th:text="${perfil.descricao}"></option>
                                     </select>
                                 </div>
 

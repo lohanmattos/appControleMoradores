@@ -22,7 +22,7 @@ public class SecurityConfig {
             )
             .httpBasic(Customizer.withDefaults())
             .formLogin(form -> form
-                .loginPage("/login")
+                .loginPage("/login").permitAll()
                 .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/", true) // Redireciona para a página principal após login
                 .permitAll()

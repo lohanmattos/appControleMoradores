@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Detalhes do Usuário Responsável</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+  <!-- AdminLTE -->
+  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+  <!-- Sidebar -->
+  <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Content Header -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Detalhes do Usuário Responsável</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+              <li class="breadcrumb-item"><a href="/usuariosResponsaveis" th:href="@{/usuariosResponsaveis}">Usuários Responsáveis</a></li>
+              <li class="breadcrumb-item active">Detalhes</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Informações do Usuário Responsável</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <!-- Nome -->
+              <div class="col-md-6 mb-3">
+                <strong>Nome:</strong>
+                <p th:text="${usuarioResponsavel.nome}"></p>
+              </div>
+              <!-- CPF -->
+              <div class="col-md-6 mb-3">
+                <strong>CPF:</strong>
+                <p th:text="${usuarioResponsavel.cpf}"></p>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Telefone -->
+              <div class="col-md-6 mb-3">
+                <strong>Telefone:</strong>
+                <p th:text="${usuarioResponsavel.telefone}"></p>
+              </div>
+              <!-- Email -->
+              <div class="col-md-6 mb-3">
+                <strong>Email:</strong>
+                <p th:text="${usuarioResponsavel.usuario.email}"></p>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Status -->
+              <div class="col-md-6 mb-3">
+                <strong>Status:</strong>
+                <span th:text="${usuarioResponsavel.usuario.ativo ? 'Ativo' : 'Inativo'}"
+                      th:classappend="${usuarioResponsavel.usuario.ativo ? 'badge badge-success' : 'badge badge-danger'}">
+                </span>
+              </div>
+              <!-- Perfis -->
+              <div class="col-md-6 mb-3">
+                <strong>Perfis:</strong>
+                <ul class="list-unstyled">
+                  <li th:each="perfil : ${usuarioResponsavel.usuario.perfis}">
+                    <span class="badge"
+                          th:classappend="${perfil.role == 'ROLE_ADMIN' ? 'badge-primary' 
+                                        : perfil.role == 'ROLE_USER' ? 'badge-secondary' 
+                                        : perfil.role == 'ROLE_SINDICO' ? 'badge-warning' : 'badge-secondary'}"
+                          th:text="${perfil.role == 'ROLE_ADMIN' ? 'Administrador' 
+                                        : perfil.role == 'ROLE_USER' ? 'Morador' 
+                                        : perfil.role == 'ROLE_SINDICO' ? 'Síndico' : 'Desconhecido'}">
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a th:href="@{/usuariosResponsaveis}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+            <a th:href="@{/usuariosResponsaveis/editar/{id}(id=${usuarioResponsavel.id})}" class="btn btn-primary">
+              <i class="fas fa-edit"></i> Editar
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-inline">Gerencie com eficiência!</div>
+    <strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.</strong> Todos os direitos reservados.
+  </footer>
+</div>
+
+<!-- REQUIRED SCRIPTS -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+</body>
+</html>
