@@ -10,4 +10,5 @@ public class AppControleMoradoresApplication {
 		SpringApplication.run(AppControleMoradoresApplication.class, args);
 	}
 
+	
 }

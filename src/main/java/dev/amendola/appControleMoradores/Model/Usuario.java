@@ -2,6 +2,8 @@ package dev.amendola.appControleMoradores.Model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -33,6 +35,7 @@ public class Usuario {
 
     // Relacionamento com Responsavel
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Responsavel responsavel;
 
     // Getters e Setters

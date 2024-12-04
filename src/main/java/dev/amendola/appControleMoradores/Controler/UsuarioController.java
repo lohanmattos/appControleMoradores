@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import dev.amendola.appControleMoradores.Model.Perfil;
+import dev.amendola.appControleMoradores.Model.Responsavel;
 import dev.amendola.appControleMoradores.Model.Usuario;
 import dev.amendola.appControleMoradores.Repository.PerfilRepository;
 import dev.amendola.appControleMoradores.Service.UsuarioService;
@@ -33,6 +35,7 @@ public class UsuarioController {
     @GetMapping("/perfil")
     public String userProfile(Model model, Principal principal) {
         Usuario user = usuarioService.findByEmail(principal.getName());
+        		
         model.addAttribute("user", user); // Adiciona o objeto usuário ao modelo
         return "usuarios/perfil";
     }
@@ -83,13 +86,27 @@ public class UsuarioController {
     
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuario(@PathVariable String id) {
-        Usuario usuario = usuarioService.buscarUsuarioPorId(id);
-        if (usuario == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            // Busca o usuário pelo ID
+            Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+            
+            // Verifica se o usuário foi encontrado
+            if (usuario == null) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            // Retorna o usuário encontrado
+            return ResponseEntity.ok(usuario);
+        } catch (Exception e) {
+            // Log para fins de depuração
+            System.err.println("Erro ao buscar usuário: " + e.getMessage());
+            
+            // Retorna uma resposta de erro genérica
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(null);
         }
-        return ResponseEntity.ok(usuario);
     }
-   
+
     
     
     @GetMapping("/excluir/{id}")

@@ -101,11 +101,11 @@ public class UsuarioService implements UserDetailsService {
 	        Usuario usuarioSalvo = repository.save(usuario);
 
 	        // Cria um responsável associado ao usuário
-	        Responsavel responsavel = new Responsavel();
-	        responsavel.setUsuario(usuarioSalvo);
+	        //Responsavel responsavel = new Responsavel();
+	        //responsavel.setUsuario(usuarioSalvo);
 
 	        // Salva o responsável associado
-	        responsavelService.salvarResponsavel(responsavel);
+	        //responsavelService.salvarResponsavel(responsavel);
 
 	        return usuarioSalvo;
 	    }

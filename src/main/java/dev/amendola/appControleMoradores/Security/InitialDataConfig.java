@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.Arrays;
 
 @Configuration
@@ -38,6 +39,8 @@ public class InitialDataConfig {
     public void init() {
         // Criação dos Perfis
         Perfil adminPerfil = criarPerfilSeNaoExistir("ADMIN", "ADMINISTRADOR");
+        Perfil usuarioPerfil = criarPerfilSeNaoExistir("USUARIO", "USUARIO");
+        Perfil sindicoPerfil = criarPerfilSeNaoExistir("SINDICO", "SINDICO");
 
         // Criação do Usuário Admin
         criarUsuarioSeNaoExistir("admin@example.com", "admin123", true, adminPerfil);
@@ -103,4 +106,5 @@ public class InitialDataConfig {
             configCondominioRepository.save(configCondominio);
         }
     }
+    
 }
