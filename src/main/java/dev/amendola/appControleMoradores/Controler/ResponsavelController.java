@@ -1,13 +1,11 @@
 package dev.amendola.appControleMoradores.Controler;
 
-import dev.amendola.appControleMoradores.Model.Perfil;
-import dev.amendola.appControleMoradores.Model.Usuario;
+
 import dev.amendola.appControleMoradores.Model.Responsavel;
-import dev.amendola.appControleMoradores.Repository.PerfilRepository;
+import dev.amendola.appControleMoradores.Model.Usuario;
 import dev.amendola.appControleMoradores.Repository.UsuarioRepository;
 import dev.amendola.appControleMoradores.Service.ResponsavelService;
-
-import java.util.List;
+import dev.amendola.appControleMoradores.Service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +20,11 @@ public class ResponsavelController {
     private ResponsavelService responsavelService;
     
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService; 
     
-    @Autowired
-    private PerfilRepository perfilRepository;
-
     @GetMapping
-    public String listarUsuariosResponsaveis(Model model) {
-        model.addAttribute("usuariosResponsaveis", responsavelService.listarTodos());
+    public String listarResponsaveis(Model model) {
+        model.addAttribute("responsaveis", responsavelService.listarTodos());
         return "responsaveis/listar";
     }
     
@@ -39,40 +34,49 @@ public class ResponsavelController {
         model.addAttribute("usuarioResponsavel", responsavel);
         return "responsaveis/detalhes";
     }
+    
+    @GetMapping("/editar/{id}")
+    public String preEditarResponsavel(@PathVariable String id, Model model) {
+        // Busca o responsável associado ao ID do usuário
+        Responsavel responsavel = responsavelService.findByUsuarioId(id);
 
+        if (responsavel == null) {
+            // Cria um novo responsável caso não exista
+            Usuario usuario = usuarioService.OptbuscarUsuarioPorId(id)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + id));
+            responsavel = new Responsavel();
+            responsavel.setUsuario(usuario);
+        }
+
+        // Adiciona o responsável ao modelo
+        model.addAttribute("responsavel", responsavel);
+        return "responsaveis/formulario";
+    }
+
+
+    @PostMapping("/salvar")
+    public String CadastrarResponsavel(Responsavel responsavel, Model model) {
+        if (responsavel.getUsuario() != null && responsavel.getUsuario().getId() != null) {
+            // Busca o usuário associado no banco de dados
+            Usuario usuarioExistente = usuarioService.OptbuscarUsuarioPorId(responsavel.getUsuario().getId())
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + responsavel.getUsuario().getId()));
+            // Mantém o usuário existente associado ao responsável
+            responsavel.setUsuario(usuarioExistente);
+        }
+
+        // Salva ou atualiza o responsável
+        responsavelService.salvarResponsavel(responsavel);
+
+        return "redirect:/responsaveis";
+    }
+
+    
     @GetMapping("/novo")
     public String novoUsuarioResponsavel(Model model) {
-        model.addAttribute("usuarioResponsavel", new Responsavel());
-        
-        // Adiciona a lista de perfis disponíveis ao modelo
-        List<Perfil> perfis = perfilRepository.findAll();
-        
-        model.addAttribute("perfis", perfis);
+        model.addAttribute("responsavel", new Responsavel());
+       
         
         return "responsaveis/formulario";
     }
 
-    @PostMapping
-    public String salvarUsuarioResponsavel(@ModelAttribute Responsavel responsavel) {
-        responsavelService.salvar(responsavel);
-        return "redirect:/responsaveis";
-    }
-
-    @GetMapping("/editar/{id}")
-    public String editarUsuarioResponsavel(@PathVariable String id, Model model) {
-      
-    	
-        model.addAttribute("usuarioResponsavel", new Responsavel());
-        // Adiciona a lista de perfis disponíveis ao modelo
-        List<Perfil> perfis = perfilRepository.findAll();
-        
-        model.addAttribute("perfis", perfis);
-        return "responsaveis/formulario";
-    }
-
-    @GetMapping("/excluir/{id}")
-    public String excluirUsuarioResponsavel(@PathVariable Long id) {
-        responsavelService.excluir(id);
-        return "redirect:/responsaveis";
-    }
 }

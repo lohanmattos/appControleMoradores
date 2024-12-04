@@ -1,6 +1,7 @@
 package dev.amendola.appControleMoradores.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 
 
 import dev.amendola.appControleMoradores.Model.Perfil;
+import dev.amendola.appControleMoradores.Model.Responsavel;
 import dev.amendola.appControleMoradores.Model.Usuario;
 import dev.amendola.appControleMoradores.Repository.UsuarioRepository;
 
@@ -25,6 +27,9 @@ public class UsuarioService implements UserDetailsService {
 	 
 	 @Autowired
 	 private PasswordEncoder passwordEncoder;
+	 
+	 @Autowired
+	 private ResponsavelService responsavelService;
 
 	    /**
 	     * Busca o usuário pelo email no banco de dados.
@@ -88,11 +93,23 @@ public class UsuarioService implements UserDetailsService {
 	    }
 
 		
-		public Usuario cadastrarUsuario(Usuario usuario) {
-			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-			System.out.println(usuario);
-			return repository.save(usuario);
-		}
+	    public Usuario cadastrarUsuario(Usuario usuario) {
+	        // Criptografa a senha antes de salvar o usuário
+	        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+
+	        // Salva o usuário no repositório
+	        Usuario usuarioSalvo = repository.save(usuario);
+
+	        // Cria um responsável associado ao usuário
+	        Responsavel responsavel = new Responsavel();
+	        responsavel.setUsuario(usuarioSalvo);
+
+	        // Salva o responsável associado
+	        responsavelService.salvarResponsavel(responsavel);
+
+	        return usuarioSalvo;
+	    }
+
 	   	    
 		public Usuario buscarUsuarioPorId(String id) {
 		    return repository.findById(id)
@@ -106,4 +123,7 @@ public class UsuarioService implements UserDetailsService {
 			repository.delete(user);
 		}
 
+		public Optional<Usuario> OptbuscarUsuarioPorId(String id) {
+		    return repository.findById(id);
+		}
 }

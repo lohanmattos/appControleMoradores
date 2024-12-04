@@ -38,17 +38,10 @@ public class InitialDataConfig {
     public void init() {
         // Criação dos Perfis
         Perfil adminPerfil = criarPerfilSeNaoExistir("ADMIN", "ADMINISTRADOR");
-        Perfil userPerfil = criarPerfilSeNaoExistir("USUARIO", "LOCATÁRIO");
-        Perfil sindicoPerfil = criarPerfilSeNaoExistir("SINDICO", "SÍNDICO");
 
         // Criação do Usuário Admin
         criarUsuarioSeNaoExistir("admin@example.com", "admin123", true, adminPerfil);
-
-        // Criação do Usuário Padrão
-        criarUsuarioSeNaoExistir("user@example.com", "user123", true, userPerfil);
-        
-        // Criação do Usuário Síndico
-        criarUsuarioSeNaoExistir("sindico@example.com", "sindico123", true, sindicoPerfil);
+   
 
         // Criação da Configuração do Condomínio
         criarConfigCondominioSeNaoExistir("Condomínio Central", "Rua Exemplo, 123", "Cidade Exemplo", "EX", "Síndico Exemplo");

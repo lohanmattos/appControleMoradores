@@ -20,12 +20,11 @@ public class Responsavel {
     @Column(nullable = false)
     private String telefone;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private Usuario usuario;   
-    
+    @OneToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
-    // Getters and Setters
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -65,19 +64,4 @@ public class Responsavel {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Responsavel morador = (Responsavel) o;
-        return Objects.equals(id, morador.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    
 }

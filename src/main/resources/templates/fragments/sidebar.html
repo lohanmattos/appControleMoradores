@@ -56,7 +56,7 @@
 					</p>
 				</a>
 					<ul class="nav nav-treeview">
-						<li class="nav-item"><a href="/usuario/listar"
+						<li class="nav-item"><a th:href="@{/usuarios/listar}"
 							class="nav-link"> 
                             <i class="fas fa-user-edit nav-icon"></i>
 							<p>Gerenciar Usuários</p>
@@ -69,15 +69,15 @@
 					</p>
 				</a>
 					<ul class="nav nav-treeview">
-						<li class="nav-item"><a href="/usuariosResponsaveis" class="nav-link">
+						<li class="nav-item"><a th:href="@{/responsaveis}" class="nav-link">
 							<i class="fas fa-users nav-icon"></i>
 							<p>Usuários</p>
 						</a></li>
-						<li class="nav-item"><a href="/imoveis" class="nav-link">
+						<li class="nav-item"><a th:href="@{/imoveis}" class="nav-link">
 							<i class="fas fa-home nav-icon"></i>
 							<p>Gerenciar Imóveis</p>
 						</a></li>
-						<li class="nav-item"><a href="/configuracoes" class="nav-link">
+						<li class="nav-item"><a th:href="@{/configuracoes}" class="nav-link">
 							<i class="fas fa-cogs nav-icon"></i>
 							<p>Configurações</p>
 						</a></li>

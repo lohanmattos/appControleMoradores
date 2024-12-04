@@ -29,13 +29,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0" th:text="${usuarioResponsavel.id == null ? 'Novo Usuário Responsável' : 'Editar Usuário Responsável'}"></h1>
+                        <h1 class="m-0">Novo Responsável</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/usuariosResponsaveis" th:href="@{/usuariosResponsaveis}">Usuários Responsáveis</a></li>
-                            <li class="breadcrumb-item active" th:text="${usuarioResponsavel.id == null ? 'Novo' : 'Editar'}"></li>
+                            <li class="breadcrumb-item"><a th:href="@{/responsaveis}">Responsáveis</a></li>
+                            <li class="breadcrumb-item active">Novo</li>
                         </ol>
                     </div>
                 </div>
@@ -55,11 +55,12 @@
                     <div class="card-header">
                         <h3 class="card-title">Cadastro de Usuário Responsável</h3>
                     </div>
-                    <form th:action="@{/usuariosResponsaveis}" th:object="${usuarioResponsavel}" method="post">
+                    <form th:action="@{/responsaveis/salvar}" th:object="${responsavel}" method="post">
                         <div class="card-body">
-                            <!-- Campo oculto para o ID do usuário (apenas no caso de edição) -->
-                            <input type="hidden" th:if="${usuarioResponsavel.id != null}" th:field="*{id}" />
-
+                        <!-- Campo oculto para o ID do usuário (apenas no caso de edição) -->
+                            <input type="hidden" th:field="*{id}" />
+                                                        <input type="hidden" th:field="*{usuario.id}" />
+                            
                             <!-- Seção: Dados Pessoais -->
                             <div class="mb-4">
                                 <h5 class="text-primary">Dados Pessoais</h5>
@@ -69,7 +70,7 @@
                                         <label for="nome" class="form-label">Nome</label>
                                         <input type="text" id="nome" th:field="*{nome}" class="form-control" required>
                                     </div>
-
+                                                                          
                                     <div class="col-md-6 mb-3">
                                         <label for="cpf" class="form-label">CPF</label>
                                         <input type="text" id="cpf" th:field="*{cpf}" class="form-control" required>
@@ -87,7 +88,7 @@
                         <!-- Botões de Ação -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Salvar</button>
-                            <a th:href="@{/usuariosResponsaveis}" class="btn btn-secondary">Cancelar</a>
+                            <a th:href="@{/responsaveis}" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>

@@ -22,7 +22,7 @@ public class Usuario {
 
     @Column(length = 6)
     private String codigoVerificador; // Pode ser NULL
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "usuario_perfil",
@@ -30,8 +30,11 @@ public class Usuario {
         inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
     private List<Perfil> perfis;
-   
-    
+
+    // Relacionamento com Responsavel
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Responsavel responsavel;
+
     // Getters e Setters
     public String getId() {
         return id;
@@ -73,17 +76,19 @@ public class Usuario {
         this.codigoVerificador = codigoVerificador;
     }
 
-	public List<Perfil> getPerfis() {
-		return perfis;
-	}
+    public List<Perfil> getPerfis() {
+        return perfis;
+    }
 
-	public void setPerfis(List<Perfil> perfis) {
-		this.perfis = perfis;
-	}
+    public void setPerfis(List<Perfil> perfis) {
+        this.perfis = perfis;
+    }
 
-	public Usuario orElseThrow(Object object) {
-		// TODO Stub de método gerado automaticamente
-		return null;
-	}
-	
+    public Responsavel getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Responsavel responsavel) {
+        this.responsavel = responsavel;
+    }
 }
