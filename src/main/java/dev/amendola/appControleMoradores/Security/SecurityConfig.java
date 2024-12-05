@@ -13,29 +13,34 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers("/static/**").permitAll() // Permite acesso público aos arquivos estáticos
-                .anyRequest().authenticated() // Requer autenticação para as demais requisições
-            )
-            .httpBasic(Customizer.withDefaults())
-            .formLogin(form -> form
-                .loginPage("/login").permitAll()
-                .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/", true) // Redireciona para a página principal após login
-                .permitAll()
-            )
-            .logout((logout) -> logout
-                .logoutSuccessUrl("/login?logout=true")
-                .permitAll()
-            )
-            .csrf().disable();
-            ;
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .authorizeHttpRequests((authorize) -> authorize
+	            .requestMatchers("/dist/**", "/plugins/**").permitAll() // Permite recursos públicos
+	            .requestMatchers("/login", "/logout").permitAll() // Permite acesso à página de login/logout
+	            .anyRequest().authenticated() // Exige autenticação para as outras requisições
+	        )
+	        .formLogin(form -> form
+	            .loginPage("/login") // Página de login customizada
+	            .failureUrl("/login?error=true") // URL para erros de login
+	            .defaultSuccessUrl("/", true) // Redireciona após login bem-sucedido
+	            .permitAll()
+	        )
+	        .logout(logout -> logout
+	            .logoutUrl("/logout")
+	            .logoutSuccessUrl("/login?logout=true")
+	            .deleteCookies("JSESSIONID")
+	            .invalidateHttpSession(true)
+	            .permitAll()
+	        );
 
-        return http.build();
-    }
+	    // Remove o HTTP Basic
+	    // .httpBasic(Customizer.withDefaults()); 
+
+	    return http.build();
+	}
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
