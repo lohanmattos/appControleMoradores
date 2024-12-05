@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Agendamentos de Áreas Comuns</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+        <!-- Sidebar -->
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Agendamentos de Áreas Comuns</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+                                <li class="breadcrumb-item active">Agendamentos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Cabeçalho com Título e Botão -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Lista de Agendamentos</h3>
+                        <a href="/agendamentos/novo" th:href="@{/agendamentos/novo}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Novo Agendamento
+                        </a>
+                    </div>
+
+                    <!-- Tabela de Agendamentos -->
+                    <div class="card">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Área Comum</th>
+                                        <th>Responsável</th>
+                                        <th>Data e Hora</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="agendamento : ${agendamentos}">
+                                        <td th:text="${agendamento.areaComum.nome}"></td>
+                                        <td th:text="${agendamento.responsavel.nome}"></td>
+                                        <td>
+                                            <span th:text="${#temporals.format(agendamento.dataInicio, 'dd/MM/yyyy')}"></span>
+                                            até
+                                            <span th:text="${#temporals.format(agendamento.dataFim, 'dd/MM/yyyy')}"></span>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{/agendamentos/editar/{id}(id=${agendamento.id})}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmarExclusaoModal"
+                                                    th:attr="data-id=${agendamento.id}">
+                                                <i class="fas fa-trash"></i> Excluir
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(agendamentos)}">
+                                        <td colspan="4" class="text-center">Nenhum agendamento encontrado.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Modal de Confirmação de Exclusão -->
+        <div class="modal fade" id="confirmarExclusaoModal" tabindex="-1" role="dialog" aria-labelledby="confirmarExclusaoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmarExclusaoModalLabel">Confirmar Exclusão</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza de que deseja excluir este agendamento? Essa ação não pode ser desfeita.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <a id="confirmarExclusaoBotao" href="#" class="btn btn-danger">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-inline">Sistema de Agendamentos</div>
+            <strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.</strong> Todos os direitos reservados.
+        </footer>
+    </div>
+
+    <!-- REQUIRED SCRIPTS -->
+    <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/dist/js/adminlte.min.js}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const confirmarExclusaoBotao = document.getElementById("confirmarExclusaoBotao");
+
+            $('#confirmarExclusaoModal').on('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const agendamentoId = button.getAttribute("data-id");
+                const excluirUrl = `/agendamentos/excluir/${agendamentoId}`;
+                confirmarExclusaoBotao.setAttribute("href", excluirUrl);
+            });
+        });
+    </script>
+</body>
+</html>

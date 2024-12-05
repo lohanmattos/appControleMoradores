@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title th:text="${agendamento.id == null ? 'Novo Agendamento' : 'Editar Agendamento'}"></title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Sidebar -->
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 th:text="${agendamento.id == null ? 'Novo Agendamento' : 'Editar Agendamento'}"></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/agendamentos" th:href="@{/agendamentos}">Agendamentos</a></li>
+                            <li class="breadcrumb-item active" th:text="${agendamento.id == null ? 'Novo' : 'Editar'}"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title" th:text="${agendamento.id == null ? 'Novo Agendamento' : 'Editar Agendamento'}"></h3>
+                    </div>
+                    <form th:action="@{/agendamentos}" th:object="${agendamento}" method="post">
+                        <div class="card-body">
+                            <input type="hidden" th:field="*{id}"/>
+
+                            <div class="form-group">
+                                <label for="areaComum">Área Comum</label>
+                                <select id="areaComum" th:field="*{areaComum.id}" class="form-control" required>
+                                    <option th:each="area : ${areasComuns}" th:value="${area.id}" th:text="${area.nome}"></option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="responsavel">Responsável</label>
+                                <select id="responsavel" th:field="*{responsavel.id}" class="form-control" required>
+                                    <option th:each="responsavel : ${responsaveis}" th:value="${responsavel.id}" th:text="${responsavel.nome}"></option>
+                                </select>
+                            </div>
+
+<div class="form-group">
+    <label for="dataInicio">Data Início</label>
+    <input type="date" id="dataInicio" th:field="*{dataInicio}" class="form-control" required
+           />
+</div>
+
+<div class="form-group">
+    <label for="dataFim">Data Fim</label>
+    <input type="date" id="dataFim" th:field="*{dataFim}" class="form-control" required
+        />
+</div>
+
+
+                            <div class="form-group">
+                                <label for="observacao">Observação</label>
+                                <textarea id="observacao" th:field="*{observacao}" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <a href="/agendamentos" th:href="@{/agendamentos}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-inline">Sistema de Agendamentos</div>
+        <strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.</strong> Todos os direitos reservados.
+    </footer>
+</div>
+
+<!-- REQUIRED SCRIPTS -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+</body>
+</html>

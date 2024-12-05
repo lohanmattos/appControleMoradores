@@ -12,7 +12,7 @@ public class InicioControler {
     public String home(Model model) {
         model.addAttribute("titulo", "Página Inicial");
         model.addAttribute("descricao", "Sistema inteligente para gerenciar condominios. ");
-        return "inicio";
+        return "redirect:/dashFinanceiro";
     }
 
     @GetMapping("/login")
