@@ -22,14 +22,15 @@ public class ConfigCondominio {
     @Column(nullable = false, length = 2)
     private String estado;
 
-    @Column(nullable = false, length = 100)
-    private String sindico;
+    @OneToOne
+    @JoinColumn(name = "sindico_id", nullable = true)
+    private Responsavel sindico;
 
     // Construtores
     public ConfigCondominio() {
     }
 
-    public ConfigCondominio(String nomeCondominio, String endereco, String cidade, String estado, String sindico,  String logoUrl) {
+    public ConfigCondominio(String nomeCondominio, String endereco, String cidade, String estado, Responsavel sindico) {
         this.nomeCondominio = nomeCondominio;
         this.endereco = endereco;
         this.cidade = cidade;
@@ -78,12 +79,15 @@ public class ConfigCondominio {
         this.estado = estado;
     }
 
-    public String getSindico() {
-        return sindico;
-    }
+	public Responsavel getSindico() {
+		return sindico;
+	}
 
-    public void setSindico(String sindico) {
-        this.sindico = sindico;
-    }
+	public void setSindico(Responsavel sindico) {
+		this.sindico = sindico;
+	}
+
+
+    
 
 }

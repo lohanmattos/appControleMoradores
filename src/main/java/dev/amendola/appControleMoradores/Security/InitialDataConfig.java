@@ -47,7 +47,7 @@ public class InitialDataConfig {
    
 
         // Criação da Configuração do Condomínio
-        criarConfigCondominioSeNaoExistir("Condomínio Central", "Rua Exemplo, 123", "Cidade Exemplo", "EX", "Síndico Exemplo");
+        criarConfigCondominioSeNaoExistir("Condomínio Central", "Rua Exemplo, 123", "Cidade Exemplo", "EX");
     }
 
     /**
@@ -95,14 +95,13 @@ public class InitialDataConfig {
      * @param estado Estado do condomínio
      * @param sindico Nome do síndico do condomínio
      */
-    private void criarConfigCondominioSeNaoExistir(String nome, String endereco, String cidade, String estado, String sindico) {
+    private void criarConfigCondominioSeNaoExistir(String nome, String endereco, String cidade, String estado) {
         if (configCondominioRepository.count() == 0) { // Verifica se a configuração já existe
             ConfigCondominio configCondominio = new ConfigCondominio();
             configCondominio.setNomeCondominio(nome);
             configCondominio.setEndereco(endereco);
             configCondominio.setCidade(cidade);
             configCondominio.setEstado(estado);
-            configCondominio.setSindico(sindico);
             configCondominioRepository.save(configCondominio);
         }
     }

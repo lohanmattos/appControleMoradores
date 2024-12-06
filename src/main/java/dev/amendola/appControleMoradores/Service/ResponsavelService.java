@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ResponsavelService {
@@ -28,6 +29,14 @@ public class ResponsavelService {
 
     public Responsavel findByUsuarioId(String usuarioId) {
         return responsavelRepository.findByUsuarioId(usuarioId);
+    }
+    
+    public List<Responsavel> filtrarResponsaveisSindico(List<Responsavel> responsaveis) {
+        return responsaveis.stream()
+                .filter(responsavel -> responsavel.getUsuario() != null) // Verifica se há um usuário associado
+                .filter(responsavel -> responsavel.getUsuario().getPerfis().stream()
+                        .anyMatch(perfil -> "SINDICO".equalsIgnoreCase(perfil.getRole()))) // Verifica o perfil de síndico
+                .collect(Collectors.toList());
     }
     
 }

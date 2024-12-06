@@ -47,7 +47,7 @@
             
                 <!-- Mensagem de Sucesso -->
                 <div th:if="${param.sucesso}" class="alert alert-success" role="alert">
-                    <i class="fas fa-check-circle"> </i><span> Configurações salvas com sucesso!</span> 
+                    <i class="fas fa-check-circle"></i><span> Configurações salvas com sucesso!</span> 
                 </div>
 
                 <!-- Formulário -->
@@ -64,10 +64,23 @@
                                     <input type="text" id="nomeCondominio" name="nomeCondominio" th:field="*{nomeCondominio}" class="form-control" required>
                                 </div>
                                 <!-- Síndico -->
-                                <div class="col-md-6 mb-3">
-                                    <label for="sindico" class="form-label">Síndico</label>
-                                    <input type="text" id="sindico" name="sindico" th:field="*{sindico}" class="form-control" required>
-                                </div>
+                               <!-- Síndico -->
+<!-- Síndico -->
+<!-- Síndico -->
+<div class="col-md-6 mb-3">
+    <label for="sindico" class="form-label">Síndico</label>
+    <select id="sindico" name="sindico" class="form-control">
+        <option th:if="${configuracoes.sindico == null}" value="" selected>Não configurado</option>
+        <option th:each="responsavel : ${responsaveis}" 
+                th:value="${responsavel.id}" 
+                th:text="${responsavel.nome}"
+                th:selected="${configuracoes.sindico?.id == responsavel.id}">
+        </option>
+    </select>
+</div>
+
+
+
                             </div>
                             <div class="row">
                                 <!-- Endereço -->
