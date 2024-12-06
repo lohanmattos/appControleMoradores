@@ -94,21 +94,28 @@ public class UsuarioService implements UserDetailsService {
 
 		
 	    public Usuario cadastrarUsuario(Usuario usuario) {
-	        // Criptografa a senha antes de salvar o usuário
-	        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+	        // Busca o usuário existente no banco de dados, caso ele já esteja cadastrado
+	        Usuario usuarioExistente = repository.findById(usuario.getId()).orElse(null);
+
+	        if (usuarioExistente != null) {
+	            // Se a senha não foi enviada, mantém a senha existente
+	            if (usuario.getSenha() == null || usuario.getSenha().isEmpty()) {
+	                usuario.setSenha(usuarioExistente.getSenha());
+	            } else {
+	                // Criptografa a nova senha caso tenha sido enviada
+	                usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+	            }
+	        } else {
+	            // Se o usuário não existe, criptografa a senha obrigatoriamente
+	            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+	        }
 
 	        // Salva o usuário no repositório
 	        Usuario usuarioSalvo = repository.save(usuario);
 
-	        // Cria um responsável associado ao usuário
-	        //Responsavel responsavel = new Responsavel();
-	        //responsavel.setUsuario(usuarioSalvo);
-
-	        // Salva o responsável associado
-	        //responsavelService.salvarResponsavel(responsavel);
-
 	        return usuarioSalvo;
 	    }
+
 
 	   	    
 		public Usuario buscarUsuarioPorId(String id) {
