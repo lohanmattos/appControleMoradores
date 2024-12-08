@@ -31,6 +31,9 @@ public class DashFinanceiro {
         model.addAttribute("totalDespesas", String.format("R$ %.2f", totalDespesas));
         model.addAttribute("lucro", String.format("R$ %.2f", lucro));
         
+        model.addAttribute("lucroStatus", lucro);
+
+        
         model.addAttribute("movimentacoes", movimentacoes);
 
 

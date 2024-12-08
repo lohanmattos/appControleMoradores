@@ -22,6 +22,9 @@ public class Despesa {
     @Column(nullable = false)
     private LocalDate data;
     
+    @Column(nullable = false)
+    private boolean pago; // Indica se a receita foi paga
+    
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private CategoriaContas categoria;
@@ -64,6 +67,14 @@ public class Despesa {
 
 	public void setCategoria(CategoriaContas categoria) {
 		this.categoria = categoria;
+	}
+
+	public boolean isPago() {
+		return pago;
+	}
+
+	public void setPago(boolean pago) {
+		this.pago = pago;
 	}
     
     

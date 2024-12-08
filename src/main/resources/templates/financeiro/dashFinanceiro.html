@@ -63,13 +63,15 @@
                         </div>
                     </div>
                     <div class="col-md-4 mt-2">
-                        <div class="card shadow h-100 bg-success">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Saldo</h5>
-                                <p class="card-text display-6 " th:text="${lucro}">R$ 0,00</p>
-                            </div>
-                        </div>
-                    </div>
+    <div class="card shadow h-100" 
+         th:classappend="${lucroStatus > 1 ? 'bg-success' : 'bg-danger'}">
+        <div class="card-body text-center">
+            <h5 class="card-title">Saldo</h5>
+            <p class="card-text display-6" th:text="${lucro}">R$ 0,00</p>
+        </div>
+    </div>
+</div>
+
                 </div>
 
                 <!-- Tabela de Movimentações Financeiras -->

@@ -105,7 +105,8 @@
 									<tr>
 										<th>Descrição</th>
 										<th>Valor</th>
-										<th>Data</th>
+										<th>Data Pagamento</th>
+										<th>Status Pagamento</th>
 										<th>Ações</th>
 									</tr>
 								</thead>
@@ -114,6 +115,9 @@
 										<td th:text="${receita.descricao}"></td>
 										<td th:text="${receita.valor}"></td>
 										<td th:text="${#temporals.format(receita.data, 'dd/MM/yyyy')}"></td>
+										<td><span class="badge"
+											th:classappend="${receita.pago ? 'badge-success' : 'badge-danger'}"
+											th:text="${receita.pago ? 'Paga' : 'Não Paga'}"> </span></td>
 										<td>
 											<!-- Botão para abrir o modal de confirmação -->
 											<button class="btn btn-danger btn-sm" data-toggle="modal"
@@ -129,6 +133,7 @@
 											encontrada.</td>
 									</tr>
 								</tbody>
+
 							</table>
 						</div>
 					</div>
@@ -151,50 +156,60 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form th:action="@{/receitas}" th:object="${receita}"
-							method="post">
-							<div class="form-group">
-								<label for="descricao">Descrição</label> <input type="text"
-									id="descricao" th:field="*{descricao}" class="form-control"
-									required>
-							</div>
-							
-														<div class="form-group">
-    <label for="categoria">Categoria</label>
-    <select id="categoria" name="categoria.id" class="form-control" required>
-        <option value="" disabled selected>Selecione a categoria</option>
-        <option th:each="categoria : ${categoriasReceitas}"
-                th:value="${categoria.id}"
-                th:text="${categoria.nome}"></option>
-    </select>
-</div>
-<div class="form-group">
-    <label for="valor">Valor</label>
-    <!-- Campo visível para o usuário -->
-    <input 
-        type="text" 
-        id="valorMask" 
-        class="form-control" 
-        required 
-        data-mask="valor">
-    
-    <!-- Campo oculto vinculado ao backend -->
-    <input 
-        type="hidden" 
-        id="valor" 
-        th:field="*{valor}">
-</div>
+						<form th:action="@{/receitas}" th:object="${receita}" method="post">
+    <!-- Descrição -->
+    <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" id="descricao" th:field="*{descricao}" class="form-control" required>
+    </div>
 
-							<div class="form-group">
-								<label for="data">Data</label> <input type="date" id="data"
-									th:field="*{data}" class="form-control" required>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">Cancelar</button>
-								<button type="submit" class="btn btn-success">Salvar</button>
-							</div>
-						</form>
+    <!-- Categoria -->
+    <div class="form-group">
+        <label for="categoria">Categoria</label>
+        <select id="categoria" name="categoria.id" class="form-control" required>
+            <option value="" disabled selected>Selecione a categoria</option>
+            <option th:each="categoria : ${categoriasReceitas}"
+                    th:value="${categoria.id}" 
+                    th:text="${categoria.nome}">
+            </option>
+        </select>
+    </div>
+
+    <!-- Valor -->
+    <div class="form-group">
+        <label for="valor">Valor</label>
+        <input type="text" id="valorMask" class="form-control" required placeholder="R$ 0,00">
+        <input type="hidden" id="valor" th:field="*{valor}">
+    </div>
+
+    <!-- Data -->
+    <div class="form-group">
+        <label for="data">Data</label>
+        <input type="date" id="data" th:field="*{data}" class="form-control" required>
+    </div>
+
+    <!-- Pago ou Não Pago -->
+    <div class="form-group">
+        <label>Status de Pagamento</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="pago" th:field="*{pago}" value="true" id="pagoSim">
+                <label class="form-check-label" for="pagoSim">Pago</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="pago" th:field="*{pago}" value="false" id="pagoNao">
+                <label class="form-check-label" for="pagoNao">Não Pago</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </div>
+</form>
+
 					</div>
 				</div>
 			</div>
@@ -213,8 +228,9 @@
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/dist/js/adminlte.min.js}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/imask/6.4.3/imask.min.js"></script>
-	
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/imask/6.4.3/imask.min.js"></script>
+
 
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
@@ -233,33 +249,33 @@
 			});
 		});
 	</script>
-	
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Seletor para o campo de máscara
-        const valorMaskInput = document.getElementById('valorMask');
-        const valorHiddenInput = document.getElementById('valor');
 
-        // Configuração da máscara para valor em reais
-        const maskOptions = {
-            mask: Number,
-            thousandsSeparator: '.',
-            radix: ',',
-            mapToRadix: ['.'], // Permite ponto como separador decimal
-            scale: 2, // Duas casas decimais
-            padFractionalZeros: true, // Preenche com zeros nas casas decimais
-            min: 0,
-        };
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			// Seletor para o campo de máscara
+			const valorMaskInput = document.getElementById('valorMask');
+			const valorHiddenInput = document.getElementById('valor');
 
-        // Aplica a máscara ao campo visível
-        const mask = IMask(valorMaskInput, maskOptions);
+			// Configuração da máscara para valor em reais
+			const maskOptions = {
+				mask : Number,
+				thousandsSeparator : '.',
+				radix : ',',
+				mapToRadix : [ '.' ], // Permite ponto como separador decimal
+				scale : 2, // Duas casas decimais
+				padFractionalZeros : true, // Preenche com zeros nas casas decimais
+				min : 0,
+			};
 
-        // Sincroniza o valor mascarado com o campo oculto
-        mask.on('accept', function () {
-            valorHiddenInput.value = mask.unmaskedValue; // Atualiza sem a máscara
-        });
-    });
-</script>
+			// Aplica a máscara ao campo visível
+			const mask = IMask(valorMaskInput, maskOptions);
+
+			// Sincroniza o valor mascarado com o campo oculto
+			mask.on('accept', function() {
+				valorHiddenInput.value = mask.unmaskedValue; // Atualiza sem a máscara
+			});
+		});
+	</script>
 
 
 
