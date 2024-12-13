@@ -1,124 +1,180 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title th:text="${titulo}">Dashboard Financeiro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title th:text="${titulo}">Dashboard Financeiro</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
-    <!-- AdminLTE -->
-    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+<!-- AdminLTE -->
+<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+	rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+	<div class="wrapper">
 
-    <!-- Navbar -->
-    <div th:insert="~{fragments/navbar :: navbar}"></div>
+		<!-- Navbar -->
+		<div th:insert="~{fragments/navbar :: navbar}"></div>
 
-    <!-- Sidebar -->
-    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+		<!-- Sidebar -->
+		<div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Content Header -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark" th:text="${titulo}">Dashboard Financeiro</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
-                            <li class="breadcrumb-item active" th:text="${titulo}">Dashboard Financeiro</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<!-- Content Wrapper -->
+		<div class="content-wrapper">
+			<!-- Content Header -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark" th:text="${titulo}">Dashboard
+								Financeiro</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="/" th:href="@{/}">Home</a></li>
+								<li class="breadcrumb-item active" th:text="${titulo}">Dashboard
+									Financeiro</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
 
-        <!-- Main Content -->
-        <section class="content">
-            <div class="container-fluid">
-                <!-- Cards de Resumo -->
-                <div class="row">
-                    <div class="col-md-4 mt-2">
-                        <div class="card shadow h-100 bg-info">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Total de Receitas</h5>
-                                <p class="card-text display-6 " th:text="${totalReceitas}">R$ 0,00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-2">
-                        <div class="card shadow h-100 bg-danger">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Total de Despesas</h5>
-                                <p class="card-text display-6 " th:text="${totalDespesas}">R$ 0,00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-2">
-    <div class="card shadow h-100" 
-         th:classappend="${lucroStatus > 1 ? 'bg-success' : 'bg-danger'}">
-        <div class="card-body text-center">
-            <h5 class="card-title">Saldo</h5>
-            <p class="card-text display-6" th:text="${lucro}">R$ 0,00</p>
-        </div>
-    </div>
-</div>
+			<!-- Main Content -->
+			<section class="content">
+				<div class="container-fluid">
+				
+					<!-- Cards de Resumo -->
+					<div class="row">
+						<div class="col-md-4 mt-2">
+							<div class="card shadow h-100 bg-info">
+								<div class="card-body text-center">
+									<h5 class="card-title">Total de Receitas</h5>
+									<p class="card-text display-6 " th:text="${totalReceitas}">R$
+										0,00</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 mt-2">
+							<div class="card shadow h-100 bg-danger">
+								<div class="card-body text-center">
+									<h5 class="card-title">Total de Despesas</h5>
+									<p class="card-text display-6 " th:text="${totalDespesas}">R$
+										0,00</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 mt-2">
+							<div class="card shadow h-100"
+								th:classappend="${lucroStatus > 1 ? 'bg-success' : 'bg-danger'}">
+								<div class="card-body text-center">
+									<h5 class="card-title">Saldo</h5>
+									<p class="card-text display-6" th:text="${lucro}">R$ 0,00</p>
+								</div>
+							</div>
+						</div>
 
-                </div>
+					</div>
 
-                <!-- Tabela de Movimentações Financeiras -->
-                <div class="mt-4">
-                    <h2>Movimentações Financeiras</h2>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped mt-3">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Tipo</th>
-                                    <th>Descrição</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Iteração sobre as movimentações -->
-                                <tr th:each="movimentacao : ${movimentacoes}">
-                                    <td th:text="${#temporals.format(movimentacao.data, 'dd/MM/yyyy')}">01/01/2024</td>
-                                    <td th:text="${movimentacao.tipo}">Tipo</td>
-                                    <td th:text="${movimentacao.descricao}">Descrição</td>
-                                    <td th:text="${movimentacao.valor}">R$ 0,00</td>
-                                </tr>
-                                <!-- Caso não existam movimentações -->
-                                <tr th:if="${#lists.isEmpty(movimentacoes)}">
-                                    <td colspan="4" class="text-center">Nenhuma movimentação encontrada.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+					<!-- Tabela de Movimentações Financeiras -->
+					<div class="mt-4">
+						<h2>Movimentações Financeiras</h2>
+						<!-- Filtros -->
+<div class="card mb-4 mt-2">
+    <div class="card-body">
+						<!-- Filtros -->
+						<form th:action="@{/dashboard/financeiro}" method="get"
+							class="mb-4">
+							<div class="row">
+								<!-- Filtro por Mês -->
+								<div class="col-md-4">
+									<label for="mes" class="form-label">Mês</label> <select
+										id="mes" name="mes" class="form-control">
+										<option value="" selected>Todos os meses</option>
+										<option value="1" th:selected="${mes == 1}">Janeiro</option>
+										<option value="2" th:selected="${mes == 2}">Fevereiro</option>
+										<option value="3" th:selected="${mes == 3}">Março</option>
+										<option value="4" th:selected="${mes == 4}">Abril</option>
+										<option value="5" th:selected="${mes == 5}">Maio</option>
+										<option value="6" th:selected="${mes == 6}">Junho</option>
+										<option value="7" th:selected="${mes == 7}">Julho</option>
+										<option value="8" th:selected="${mes == 8}">Agosto</option>
+										<option value="9" th:selected="${mes == 9}">Setembro</option>
+										<option value="10" th:selected="${mes == 10}">Outubro</option>
+										<option value="11" th:selected="${mes == 11}">Novembro</option>
+										<option value="12" th:selected="${mes == 12}">Dezembro</option>
+									</select>
+								</div>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="float-right d-none d-sm-inline">
-            Gerencie suas finanças com eficiência!
-        </div>
-        <strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.</strong> Todos os direitos reservados.
-    </footer>
-</div>
+								<!-- Filtro por Tipo -->
+								<div class="col-md-4">
+									<label for="tipo" class="form-label">Tipo</label> <select
+										id="tipo" name="tipo" class="form-control">
+										<option value="" selected>Todos os tipos</option>
+										<option value="Receita" th:selected="${tipo == 'Receita'}">Receita</option>
+										<option value="Despesa" th:selected="${tipo == 'Despesa'}">Despesa</option>
+									</select>
+								</div>
 
-<!-- REQUIRED SCRIPTS -->
-<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/dist/js/adminlte.min.js}"></script>
+								<!-- Botão de Filtrar -->
+								<div class="col-md-4 d-flex align-items-end mt-2">
+									<button type="submit" class="btn btn-primary w-100">Filtrar</button>
+								</div>
+							</div>
+						</form>
+						
+						</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped mt-3">
+								<thead class="table-dark">
+									<tr>
+										<th>Data</th>
+										<th>Tipo</th>
+										<th>Descrição</th>
+										<th>Valor</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Iteração sobre as movimentações -->
+									<tr th:each="movimentacao : ${movimentacoes}">
+										<td
+											th:text="${#temporals.format(movimentacao.data, 'dd/MM/yyyy')}">01/01/2024</td>
+										<td th:text="${movimentacao.tipo}">Tipo</td>
+										<td th:text="${movimentacao.descricao}">Descrição</td>
+										<td th:text="${movimentacao.valor}">R$ 0,00</td>
+									</tr>
+									<!-- Caso não existam movimentações -->
+									<tr th:if="${#lists.isEmpty(movimentacoes)}">
+										<td colspan="4" class="text-center">Nenhuma movimentação
+											encontrada.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<!-- Footer -->
+		<footer class="main-footer">
+			<div class="float-right d-none d-sm-inline">Gerencie suas
+				finanças com eficiência!</div>
+			<strong>Copyright &copy; 2024 <a href="#">CorujaCondo</a>.
+			</strong> Todos os direitos reservados.
+		</footer>
+	</div>
+
+	<!-- REQUIRED SCRIPTS -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
 </body>
 </html>

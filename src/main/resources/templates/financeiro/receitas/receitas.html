@@ -96,7 +96,51 @@
 							<i  class="fas fa-plus"></i> Nova Receita
 						</button>
 					</div>
+<!-- Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form th:action="@{/receitas/filtro}" method="get" class="row">
+            <!-- Filtro por Data -->
+            <div class="col-md-3">
+                <label for="dataInicio" class="form-label">Data Início</label>
+                <input type="date" id="dataInicio" name="dataInicio" class="form-control"
+                       th:value="${dataInicio}">
+            </div>
+            <div class="col-md-3">
+                <label for="dataFim" class="form-label">Data Fim</label>
+                <input type="date" id="dataFim" name="dataFim" class="form-control"
+                       th:value="${dataFim}">
+            </div>
 
+            <!-- Filtro por Categoria -->
+            <div class="col-md-3">
+                <label for="categoriaFiltro" class="form-label">Categoria</label>
+                <select id="categoriaFiltro" name="categoria" class="form-control">
+                    <option value="" th:selected="${#strings.isEmpty(categoria)}">Todas</option>
+                    <option th:each="categoria : ${categoriasReceitas}"
+                            th:value="${categoria.id}" 
+                            th:text="${categoria.nome}"
+                            th:selected="${categoria.id == categoria}"></option>
+                </select>
+            </div>
+
+            <!-- Filtro por Status de Pagamento -->
+            <div class="col-md-3">
+                <label for="pagoFiltro" class="form-label">Status de Pagamento</label>
+                <select id="pagoFiltro" name="pago" class="form-control">
+                    <option value="" th:selected="${#strings.isEmpty(pago)}">Todos</option>
+                    <option value="true" th:selected="${pago == 'true'}">Pago</option>
+                    <option value="false" th:selected="${pago == 'false'}">Não Pago</option>
+                </select>
+            </div>
+
+            <!-- Botão de Filtrar -->
+            <div class="col-md-12 mt-3 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
 					<!-- Tabela de Receitas -->
 					<div class="card">
 						<div class="card-body table-responsive p-0">

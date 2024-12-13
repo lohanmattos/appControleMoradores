@@ -5,7 +5,9 @@ import dev.amendola.appControleMoradores.Model.TipoCategoria;
 import dev.amendola.appControleMoradores.Service.CategoriaContasService;
 import dev.amendola.appControleMoradores.Service.ReceitaService;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,5 +67,37 @@ public class ReceitaController {
             redirectAttributes.addAttribute("error", "Erro ao excluir a receita.");
         }
         return "redirect:/receitas";
+    }
+    
+    @GetMapping("/filtro")
+    public String listarReceitas(@RequestParam(required = false) LocalDate dataInicio,
+                                 @RequestParam(required = false) LocalDate dataFim,
+                                 @RequestParam(required = false) Long categoria,
+                                 @RequestParam(required = false) Boolean pago,
+                                 Model model) {
+
+        // Simulação de lista de receitas
+        List<Receita> todasReceitas = receitaService.listarTodas(); // Adicione seu método de serviço
+
+        // Aplicar filtros
+        List<Receita> receitasFiltradas = todasReceitas.stream()
+                .filter(receita -> (dataInicio == null || !receita.getData().isBefore(dataInicio)))
+                .filter(receita -> (dataFim == null || !receita.getData().isAfter(dataFim)))
+                .filter(receita -> (categoria == null || (receita.getCategoria() != null && receita.getCategoria().getId().equals(categoria))))
+                .filter(receita -> (pago == null || receita.isPago() == pago))
+                .collect(Collectors.toList());
+
+        // Passar dados para o modelo
+        model.addAttribute("receitas", receitasFiltradas);
+        model.addAttribute("dataInicio", dataInicio);
+        model.addAttribute("dataFim", dataFim);
+        model.addAttribute("categoria", categoria);
+        model.addAttribute("pago", pago);
+        model.addAttribute("categoriasReceitas", categoriaContasService.listarTodos()); // Lista de categorias
+
+        // Adiciona um novo objeto Receita ao modelo para o formulário
+        model.addAttribute("receita", new Receita());
+        
+        return "financeiro/receitas/receitas"; // Nome do arquivo HTML
     }
 }
