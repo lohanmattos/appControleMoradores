@@ -12,6 +12,7 @@
 <!-- AdminLTE -->
 <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
 <!-- Google Fonts -->
+
 <link
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
 	rel="stylesheet">
@@ -49,7 +50,6 @@
 			<!-- Main Content -->
 			<section class="content">
 				<div class="container-fluid">
-				
 					<!-- Cards de Resumo -->
 					<div class="row">
 						<div class="col-md-4 mt-2">
@@ -125,10 +125,13 @@
 								<!-- Botão de Filtrar -->
 								<div class="col-md-4 d-flex align-items-end mt-2">
 									<button type="submit" class="btn btn-primary w-100">Filtrar</button>
+									
 								</div>
 							</div>
 						</form>
-						
+						<a href="/dashboard/financeiro/pdf" class="btn btn-primary mt-3">
+    Gerar PDF
+</a>
 						</div>
 						</div>
 						<div class="table-responsive">
@@ -171,10 +174,105 @@
 			</strong> Todos os direitos reservados.
 		</footer>
 	</div>
+	
+	<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    document.getElementById("btnGerarPdf").addEventListener("click", function () {
+	        // Obter os dados financeiros da página
+	        const totalReceitasEl = document.querySelector(".card-text[th\\:text='${totalReceitas}']");
+	        const totalDespesasEl = document.querySelector(".card-text[th\\:text='${totalDespesas}']");
+	        const saldoEl = document.querySelector(".card-text[th\\:text='${lucro}']");
+
+	        if (!totalReceitasEl || !totalDespesasEl || !saldoEl) {
+	            console.error("Um ou mais elementos não foram encontrados!");
+	            alert("Erro ao gerar PDF: Dados financeiros não estão disponíveis.");
+	            return;
+	        }
+
+	        const totalReceitas = totalReceitasEl.innerText;
+	        const totalDespesas = totalDespesasEl.innerText;
+	        const saldo = saldoEl.innerText;
+
+	        // Obter as movimentações financeiras
+	        const tabela = document.querySelector("table tbody");
+	        if (!tabela) {
+	            console.error("Tabela de movimentações não encontrada!");
+	            alert("Erro ao gerar PDF: Tabela de movimentações não está disponível.");
+	            return;
+	        }
+
+	        const linhas = tabela.querySelectorAll("tr");
+	        const movimentacoes = Array.from(linhas).map((linha) => {
+	            const colunas = linha.querySelectorAll("td");
+	            if (colunas.length > 0) {
+	                return [
+	                    colunas[0]?.innerText || '', // Data
+	                    colunas[1]?.innerText || '', // Tipo
+	                    colunas[2]?.innerText || '', // Descrição
+	                    colunas[3]?.innerText || '', // Valor
+	                ];
+	            }
+	            return null;
+	        }).filter((mov) => mov !== null);
+
+	        // Definir o conteúdo do PDF
+	        const docDefinition = {
+	            content: [
+	                { text: 'Relatório Financeiro', style: 'header' },
+	                { text: 'Resumo:', style: 'subheader' },
+	                {
+	                    table: {
+	                        body: [
+	                            ['Total de Receitas', totalReceitas],
+	                            ['Total de Despesas', totalDespesas],
+	                            ['Saldo', saldo],
+	                        ]
+	                    }
+	                },
+	                { text: 'Movimentações Financeiras:', style: 'subheader', margin: [0, 20, 0, 10] },
+	                {
+	                    table: {
+	                        headerRows: 1,
+	                        body: [
+	                            ['Data', 'Tipo', 'Descrição', 'Valor'], // Cabeçalhos
+	                            ...movimentacoes // Dados das movimentações
+	                        ]
+	                    }
+	                }
+	            ],
+	            styles: {
+	                header: {
+	                    fontSize: 18,
+	                    bold: true,
+	                    margin: [0, 0, 0, 10]
+	                },
+	                subheader: {
+	                    fontSize: 14,
+	                    bold: true,
+	                    margin: [0, 10, 0, 5]
+	                },
+	                tableHeader: {
+	                    bold: true,
+	                    fontSize: 12,
+	                    color: 'black'
+	                }
+	            }
+	        };
+
+	        // Gerar e baixar o PDF
+	        pdfMake.createPdf(docDefinition).download('Relatorio_Financeiro.pdf');
+	    });
+	});
+
+</script>
+	
 
 	<!-- REQUIRED SCRIPTS -->
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<!-- Adicionar o script da biblioteca pdfmake -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/vfs_fonts.js"></script>
 </body>
 </html>
