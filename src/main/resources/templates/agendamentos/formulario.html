@@ -49,47 +49,57 @@
                     <div class="card-header">
                         <h3 class="card-title" th:text="${agendamento.id == null ? 'Novo Agendamento' : 'Editar Agendamento'}"></h3>
                     </div>
-                    <form th:action="@{/agendamentos}" th:object="${agendamento}" method="post">
-                        <div class="card-body">
-                            <input type="hidden" th:field="*{id}"/>
+                  <form th:action="@{/agendamentos}" th:object="${agendamento}" method="post">
+    <div class="card-body">
+        <input type="hidden" th:field="*{id}"/>
 
-                            <div class="form-group">
-                                <label for="areaComum">Área Comum</label>
-                                <select id="areaComum" th:field="*{areaComum.id}" class="form-control" required>
-                                    <option th:each="area : ${areasComuns}" th:value="${area.id}" th:text="${area.nome}"></option>
-                                </select>
-                            </div>
+        <div class="row">
+            <!-- Área Comum -->
+            <div class="form-group col-md-6">
+                <label for="areaComum">Área Comum</label>
+                <select id="areaComum" th:field="*{areaComum.id}" class="form-control" required>
+                    <option th:each="area : ${areasComuns}" th:value="${area.id}" th:text="${area.nome}"></option>
+                </select>
+            </div>
 
-                            <div class="form-group">
-                                <label for="responsavel">Responsável</label>
-                                <select id="responsavel" th:field="*{responsavel.id}" class="form-control" required>
-                                    <option th:each="responsavel : ${responsaveis}" th:value="${responsavel.id}" th:text="${responsavel.nome}"></option>
-                                </select>
-                            </div>
+            <!-- Responsável -->
+            <div class="form-group col-md-6">
+                <label for="responsavel">Responsável</label>
+                <select id="responsavel" th:field="*{responsavel.id}" class="form-control" required>
+                    <option th:each="responsavel : ${responsaveis}" th:value="${responsavel.id}" th:text="${responsavel.nome}"></option>
+                </select>
+            </div>
+        </div>
 
-<div class="form-group">
-    <label for="dataInicio">Data Início</label>
-    <input type="date" id="dataInicio" th:field="*{dataInicio}" class="form-control" required
-           />
-</div>
+        <div class="row">
+            <!-- Data Início -->
+            <div class="form-group col-md-6">
+                <label for="dataInicio">Data Início</label>
+                <input type="date" id="dataInicio" th:field="*{dataInicio}" class="form-control" required/>
+            </div>
 
-<div class="form-group">
-    <label for="dataFim">Data Fim</label>
-    <input type="date" id="dataFim" th:field="*{dataFim}" class="form-control" required
-        />
-</div>
+            <!-- Data Fim -->
+            <div class="form-group col-md-6">
+                <label for="dataFim">Data Fim</label>
+                <input type="date" id="dataFim" th:field="*{dataFim}" class="form-control" required/>
+            </div>
+        </div>
 
+        <div class="row">
+            <!-- Observação -->
+            <div class="form-group col-md-12">
+                <label for="observacao">Observação</label>
+                <textarea id="observacao" th:field="*{observacao}" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
 
-                            <div class="form-group">
-                                <label for="observacao">Observação</label>
-                                <textarea id="observacao" th:field="*{observacao}" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                            <a href="/agendamentos" th:href="@{/agendamentos}" class="btn btn-secondary">Cancelar</a>
-                        </div>
-                    </form>
+    <div class="card-footer text-right">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="/agendamentos" th:href="@{/agendamentos}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+
                 </div>
             </div>
         </section>

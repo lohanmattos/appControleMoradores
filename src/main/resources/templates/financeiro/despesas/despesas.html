@@ -93,7 +93,7 @@
 						<h3>
 Histórico de Contas a Pagar
 </h3>
-						<button class="btn btn-primary" data-toggle="modal"
+						<button sec:authorize="hasAuthority('SINDICO')" class="btn btn-primary" data-toggle="modal"
 							data-target="#novaDespesaModal">
 							<i class="fas fa-plus"></i> Nova Despesa
 						</button>
@@ -109,7 +109,7 @@ Histórico de Contas a Pagar
 										<th>Valor</th>
 										<th>Data Pagamento</th>
 										<th>Status Pagamento</th>
-										<th>Ações</th>
+										<th sec:authorize="hasAuthority('SINDICO')">Ações</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -120,7 +120,7 @@ Histórico de Contas a Pagar
 											<td><span class="badge"
 											th:classappend="${despesa.pago ? 'badge-success' : 'badge-danger'}"
 											th:text="${despesa.pago ? 'Paga' : 'Não Paga'}"> </span></td>
-										<td>
+										<td sec:authorize="hasAuthority('SINDICO')">
 											<button class="btn btn-danger btn-sm" data-toggle="modal"
 												data-target="#confirmarExclusaoModal"
 												th:attr="data-id=${despesa.id}">

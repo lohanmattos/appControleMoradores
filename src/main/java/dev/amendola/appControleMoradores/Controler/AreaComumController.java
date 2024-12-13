@@ -2,6 +2,9 @@ package dev.amendola.appControleMoradores.Controler;
 
 import dev.amendola.appControleMoradores.Model.AreaComum;
 import dev.amendola.appControleMoradores.Service.AreaComumService;
+
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,14 @@ public class AreaComumController {
     public String listarAreasComuns(Model model) {
         model.addAttribute("areaComum", service.listarTodas());
         return "areaComum/lista";
+    }
+    
+    @GetMapping("/detalhes/{id}")
+    public String detalhesAreaComum(@PathVariable Long id, Model model) {
+        AreaComum areaComum = service.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Área Comum não encontrada com o ID: " + id));
+        model.addAttribute("areaComum", areaComum);
+        return "areaComum/detalhes"; // Nome do arquivo HTML
     }
 
     @GetMapping("/novo")

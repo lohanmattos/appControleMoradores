@@ -91,9 +91,9 @@
 					<!-- Cabeçalho com Título e Botão -->
 					<div class="d-flex justify-content-between align-items-center mb-4">
 						<h3>Histórico de Contas a Receber</h3>
-						<button class="btn btn-primary" data-toggle="modal"
+						<button sec:authorize="hasAuthority('SINDICO')" class="btn btn-primary" data-toggle="modal"
 							data-target="#novaReceitaModal">
-							<i class="fas fa-plus"></i> Nova Receita
+							<i  class="fas fa-plus"></i> Nova Receita
 						</button>
 					</div>
 
@@ -107,7 +107,7 @@
 										<th>Valor</th>
 										<th>Data Pagamento</th>
 										<th>Status Pagamento</th>
-										<th>Ações</th>
+										<th sec:authorize="hasAuthority('SINDICO')" >Ações</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -118,7 +118,7 @@
 										<td><span class="badge"
 											th:classappend="${receita.pago ? 'badge-success' : 'badge-danger'}"
 											th:text="${receita.pago ? 'Paga' : 'Não Paga'}"> </span></td>
-										<td>
+										<td sec:authorize="hasAuthority('SINDICO')">
 											<!-- Botão para abrir o modal de confirmação -->
 											<button class="btn btn-danger btn-sm" data-toggle="modal"
 												data-target="#confirmarExclusaoModal"

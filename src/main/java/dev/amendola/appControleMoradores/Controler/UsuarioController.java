@@ -58,11 +58,11 @@ public class UsuarioController {
     }
     
     @GetMapping("/listar")
-    public String listarUsuarios(Model model) {
+    public String listarUsuarios(Model model, Principal principal) {
         List<Usuario> usuarios = usuarioService.findAll();
         
         List<Perfil> perfis = perfilRepository.findAll();
-        
+                        
         model.addAttribute("perfis", perfis); // Adiciona a lista de perfis ao modelo
         model.addAttribute("usuarios", usuarios); // Adiciona a lista de usuários ao modelo
         return "usuarios/listar";

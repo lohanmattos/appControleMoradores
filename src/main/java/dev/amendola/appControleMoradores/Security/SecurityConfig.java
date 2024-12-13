@@ -19,6 +19,7 @@ public class SecurityConfig {
 	        .authorizeHttpRequests((authorize) -> authorize
 	            .requestMatchers("/dist/**", "/plugins/**").permitAll() // Permite recursos públicos
 	            .requestMatchers("/login", "/logout").permitAll() // Permite acesso à página de login/logout
+	            .requestMatchers("/categorias", "/configuracoes", "/responsaveis","/usuarios/listar").hasAuthority("SINDICO")
 	            .anyRequest().authenticated() // Exige autenticação para as outras requisições
 	        )
 	        .formLogin(form -> form
