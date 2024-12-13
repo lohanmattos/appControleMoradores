@@ -5,6 +5,8 @@ import dev.amendola.appControleMoradores.Model.TipoCategoria;
 import dev.amendola.appControleMoradores.Repository.CategoriaContasRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,10 @@ public class CategoriaContasService {
 	
 	 public List<CategoriaContas> listarPorTipo(TipoCategoria tipo) {
 	        return categoriaContasRepository.findByTipo(tipo);
+	    }
+	 
+	 public Page<CategoriaContas> listarCategorias(Pageable pageable) {
+	        return categoriaContasRepository.findAll(pageable);
 	    }
 	 
 	 public List<CategoriaContas> listarTodos() {

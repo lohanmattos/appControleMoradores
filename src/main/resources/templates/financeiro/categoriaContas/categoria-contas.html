@@ -62,41 +62,76 @@
                     </button>
                 </div>
 
-                <!-- Tabela de Categorias -->
-                <div class="card">
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-bordered table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Tipo</th>                               
-                                    <th>Nome</th>
-                                    <th>Descrição</th>                              
-                                    <th>Ações</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="categoria : ${categorias}">
-                                    <td th:text="${categoria.tipo}"></td>
-                                    <td th:text="${categoria.nome}"></td>
-                                    <td th:text="${categoria.descricao}"></td>
-                                    <td>
-                                        <!-- Botão para excluir -->
-                                        <button class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#confirmarExclusaoModal"
-                                                th:attr="data-id=${categoria.id}">
-                                            <i class="fas fa-trash"></i> Excluir
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Caso não existam categorias -->
-                                <tr th:if="${#lists.isEmpty(categorias)}">
-                                    <td colspan="4" class="text-center">Nenhuma categoria encontrada.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="card">
+    <div class="card-body table-responsive p-0">
+       <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Tipo</th>
+            <th>Nome</th>
+            <th class="d-none d-md-table-cell">Descrição</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="categoria : ${categorias}">
+            <td th:text="${categoria.tipo}"></td>
+            <td th:text="${categoria.nome}"></td>
+            <!-- Oculta a descrição em telas pequenas -->
+            <td class="d-none d-md-table-cell" th:text="${categoria.descricao}"></td>
+            <td>
+                <!-- Botão de ação -->
+                <button class="btn btn-danger btn-sm d-none d-md-inline" data-toggle="modal"
+                        data-target="#confirmarExclusaoModal"
+                        th:attr="data-id=${categoria.id}">
+                    <i class="fas fa-trash"></i> Excluir
+                </button>
+                <!-- Ícone de hambúrguer para telas menores -->
+                <button class="btn btn-danger btn-sm d-md-none" data-toggle="modal"
+                        data-target="#confirmarExclusaoModal"
+                        th:attr="data-id=${categoria.id}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(categorias)}">
+            <td colspan="4" class="text-center">Nenhuma categoria encontrada.</td>
+        </tr>
+    </tbody>
+</table>
+
+    </div>
+</div>
+
+<!-- Paginação -->
+<div class="d-flex justify-content-between mt-3">
+    <div>
+        Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span>
+    </div>
+    <div>
+        <nav>
+            <ul class="pagination">
+                <!-- Botão para página anterior -->
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/categorias(page=${currentPage - 1}, size=${pageSize})}">Anterior</a>
+                </li>
+
+                <!-- Páginas -->
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/categorias(page=${i}, size=${pageSize})}"
+                       th:text="${i + 1}"></a>
+                </li>
+
+                <!-- Botão para próxima página -->
+                <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/categorias(page=${currentPage + 1}, size=${pageSize})}">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
             </div>
         </section>
     </div>

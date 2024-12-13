@@ -4,6 +4,8 @@ import dev.amendola.appControleMoradores.Model.CategoriaContas;
 import dev.amendola.appControleMoradores.Service.CategoriaContasService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -20,13 +23,27 @@ public class CategoriaContasController {
 	@Autowired
     private CategoriaContasService categoriaContasService;
 
-    @GetMapping
-    public String listarCategorias(Model model) {
-        model.addAttribute("categorias", categoriaContasService.listarTodos());
-        model.addAttribute("categoria", new CategoriaContas()); // Adiciona o objeto ao modelo
+	@GetMapping()
+	public String listarCategorias(@RequestParam(defaultValue = "0") int page, 
+	                               @RequestParam(defaultValue = "10") int size, 
+	                               Model model) {
 
-        return "financeiro/categoriaContas/categoria-contas"; // Crie um template para exibir as categorias
-    }
+	    // Obtenha uma página de categorias
+	    Page<CategoriaContas> categoriasPage = categoriaContasService.listarCategorias(PageRequest.of(page, size));
+
+	    // Adicione os atributos necessários ao modelo
+	    model.addAttribute("categorias", categoriasPage.getContent());
+	    model.addAttribute("currentPage", categoriasPage.getNumber());
+	    model.addAttribute("totalPages", categoriasPage.getTotalPages());
+	    model.addAttribute("totalElements", categoriasPage.getTotalElements());
+	    model.addAttribute("pageSize", size);
+
+	 // Adicione um objeto Categoria vazio para o formulário
+	    model.addAttribute("categoria", new CategoriaContas());
+	    
+	    return "financeiro/categoriaContas/categoria-contas"; // Retorne o nome do arquivo HTML
+	}
+
     
     @PostMapping
     public String salvarCategoria(@ModelAttribute("categoria") CategoriaContas categoriacontas, RedirectAttributes redirectAttributes) {
