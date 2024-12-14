@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -32,6 +33,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Controller
@@ -120,7 +122,7 @@ public class DashFinanceiro {
         try {
             // Configurar resposta HTTP
             response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=dashboard_financeiro.pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=relatorio.pdf");
 
             // Criar documento PDF
             Document document = new Document();
@@ -138,18 +140,23 @@ public class DashFinanceiro {
                 document.add(new Paragraph(config.getNomeCondominio(), fontTitulo));
                 document.add(new Paragraph(config.getEndereco() + ", " + config.getCidade() + " - " + config.getEstado(), fontTexto));
             }
-
+            
+            document.add(new Paragraph("\n"));
+            document.add(new LineSeparator());          
             document.add(new Paragraph("\n"));
 
             // Título do Relatório
-            Paragraph titulo = new Paragraph("Relatório Financeiro", fontTitulo);
+            Paragraph titulo = new Paragraph("Extrato Financeiro", fontTitulo);
             titulo.setAlignment(Element.ALIGN_CENTER);
             document.add(titulo);
             document.add(new Paragraph("\n"));
 
             // Seção Receitas
         
-            document.add(new Paragraph("Receitas", fontSubtitulo));
+            Paragraph Receitas = new Paragraph("Receitas", fontSubtitulo);
+            Receitas.setAlignment(Element.ALIGN_LEFT);
+            document.add(Receitas);
+            
             PdfPTable tabelaReceitas = new PdfPTable(3);
             tabelaReceitas.setWidthPercentage(100);
             tabelaReceitas.setSpacingBefore(10f);
@@ -167,15 +174,21 @@ public class DashFinanceiro {
                 totalReceitas = totalReceitas.add(receita.getValor());
             }
             document.add(tabelaReceitas);
-            document.add(new Paragraph("Total de Receitas: R$ " + totalReceitas, fontTexto));
+            
+            Paragraph totalReceitasP = new Paragraph(String.format("Total de Receitas: R$ %.2f", totalReceitas, fontTexto));
+            totalReceitasP.setAlignment(Element.ALIGN_RIGHT);
+            document.add(totalReceitasP);
 
+            document.add(new Paragraph("\n"));           
+            document.add(new LineSeparator());                                  
             document.add(new Paragraph("\n"));
-            
-            
-              
 
-            // Seção Despesas
-            document.add(new Paragraph("Despesas", fontSubtitulo));
+            // Seção Despesas            
+            Paragraph Despesas = new Paragraph("Despesas", fontSubtitulo);
+            Despesas.setAlignment(Element.ALIGN_LEFT);
+            document.add(Despesas);
+            
+            
             PdfPTable tabelaDespesas = new PdfPTable(3);
             tabelaDespesas.setWidthPercentage(100);
             tabelaDespesas.setSpacingBefore(10f);
@@ -192,7 +205,11 @@ public class DashFinanceiro {
                 totalDespesas = totalDespesas.add(despesa.getValor());
             }
             document.add(tabelaDespesas);
-            document.add(new Paragraph("Total de Despesas: R$ " + totalDespesas, fontTexto));
+            
+            Paragraph totalDespesasP = new Paragraph(String.format("Total de Despesas: R$ %.2f", totalDespesas, fontTexto));
+            totalDespesasP.setAlignment(Element.ALIGN_RIGHT);
+            document.add(totalDespesasP);
+            
 
             document.add(new Paragraph("\n"));
 
@@ -207,18 +224,36 @@ public class DashFinanceiro {
             document.add(new Paragraph("\n"));
 
 
-            // Assinatura
-            Paragraph assinatura = new Paragraph("___________________________________________\n" + config.getSindico().getNome() + "\nSíndico", fontTexto);
-            assinatura.setAlignment(Element.ALIGN_CENTER);
+         // Assinatura com Local e Data
+            LocalDate dataAtual = LocalDate.now();
+            DateTimeFormatter formatterAss = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", new Locale("pt", "BR"));
+
+            String localEData = config.getCidade() + " - " + config.getEstado() + ", " + dataAtual.format(formatter);
+
+            Paragraph assinatura = new Paragraph(
+                    "___________________________________________\n" +
+                    config.getSindico().getNome() + "\n" +
+                    "Síndico\n\n" +
+                    localEData,
+                    fontTexto
+            );
+            assinatura.setAlignment(Element.ALIGN_LEFT);
             document.add(assinatura);
 
             document.add(new Paragraph("\n"));
             document.add(new Paragraph("\n"));
+            document.add(new Paragraph("\n"));
+            document.add(new Paragraph("\n"));
+
 
             // Rodapé
-            Paragraph rodape = new Paragraph("Sistema de Gestão Condominial - Desenvolvido por Lohan Amendola", fontTexto);
-            rodape.setAlignment(Element.ALIGN_CENTER);
-            document.add(rodape);
+            document.add(new LineSeparator());                                  
+            Paragraph rodapeT = new Paragraph("CorujaCondo - Sistema de Gestão de Condomínios.", fontTexto);
+            rodapeT.setAlignment(Element.ALIGN_BOTTOM);
+            document.add(rodapeT);
+            Paragraph rodapeD = new Paragraph("Desenvolvido: Lohan Amendola", fontTexto);
+            rodapeD.setAlignment(Element.ALIGN_BOTTOM);
+            document.add(rodapeD);
 
             document.close();
         } catch (IOException | DocumentException e) {
@@ -228,8 +263,12 @@ public class DashFinanceiro {
 
     private PdfPCell criarCelula(String conteudo, Font fonte) {
         PdfPCell celula = new PdfPCell(new Phrase(conteudo, fonte));
-        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-        celula.setPadding(5);
+        celula.setHorizontalAlignment(Element.ALIGN_LEFT);
+        celula.setPadding(2);
+        // Configurações de estilo para cabeçalhos
+        celula.setBackgroundColor(BaseColor.GRAY); // Fundo cinza
+        celula.setPhrase(new Phrase(conteudo, new Font(fonte.getFamily(), fonte.getSize(), Font.BOLD, BaseColor.WHITE))); // Texto branco
         return celula;
     }
+
 }
