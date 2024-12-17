@@ -71,8 +71,7 @@
 							</div>
 						</div>
 						<div class="col-md-4 mt-2">
-							<div class="card shadow h-100"
-								th:classappend="${lucroStatus > 1 ? 'bg-success' : 'bg-danger'}">
+							<div class="card shadow h-100 bg-success">
 								<div class="card-body text-center">
 									<h5 class="card-title">Saldo</h5>
 									<p class="card-text display-6" th:text="${lucro}">R$ 0,00</p>
@@ -84,56 +83,68 @@
 
 					<!-- Tabela de Movimentações Financeiras -->
 					<div class="mt-4">
-						<h2>Movimentações Financeiras</h2>
 						<!-- Filtros -->
 <div class="card mb-4 mt-2">
     <div class="card-body">
 						<!-- Filtros -->
-						<form th:action="@{/dashboard/financeiro}" method="get"
-							class="mb-4">
-							<div class="row">
-								<!-- Filtro por Mês -->
-								<div class="col-md-4">
-									<label for="mes" class="form-label">Mês</label> <select
-										id="mes" name="mes" class="form-control">
-										<option value="" selected>Todos os meses</option>
-										<option value="1" th:selected="${mes == 1}">Janeiro</option>
-										<option value="2" th:selected="${mes == 2}">Fevereiro</option>
-										<option value="3" th:selected="${mes == 3}">Março</option>
-										<option value="4" th:selected="${mes == 4}">Abril</option>
-										<option value="5" th:selected="${mes == 5}">Maio</option>
-										<option value="6" th:selected="${mes == 6}">Junho</option>
-										<option value="7" th:selected="${mes == 7}">Julho</option>
-										<option value="8" th:selected="${mes == 8}">Agosto</option>
-										<option value="9" th:selected="${mes == 9}">Setembro</option>
-										<option value="10" th:selected="${mes == 10}">Outubro</option>
-										<option value="11" th:selected="${mes == 11}">Novembro</option>
-										<option value="12" th:selected="${mes == 12}">Dezembro</option>
-									</select>
-								</div>
+<form th:action="@{/dashboard/financeiro}" method="get" class="mb-4">
+    <div class="row">
+        <!-- Filtro por Mês -->
+        <div class="col-md-3">
+            <label for="mes" class="form-label">Mês</label>
+            <select id="mes" name="mes" class="form-control">
+                <option value="" selected>Todos os meses</option>
+                <option value="1" th:selected="${mes == 1}">Janeiro</option>
+                <option value="2" th:selected="${mes == 2}">Fevereiro</option>
+                <option value="3" th:selected="${mes == 3}">Março</option>
+                <option value="4" th:selected="${mes == 4}">Abril</option>
+                <option value="5" th:selected="${mes == 5}">Maio</option>
+                <option value="6" th:selected="${mes == 6}">Junho</option>
+                <option value="7" th:selected="${mes == 7}">Julho</option>
+                <option value="8" th:selected="${mes == 8}">Agosto</option>
+                <option value="9" th:selected="${mes == 9}">Setembro</option>
+                <option value="10" th:selected="${mes == 10}">Outubro</option>
+                <option value="11" th:selected="${mes == 11}">Novembro</option>
+                <option value="12" th:selected="${mes == 12}">Dezembro</option>
+            </select>
+        </div>
 
-								<!-- Filtro por Tipo -->
-								<div class="col-md-4">
-									<label for="tipo" class="form-label">Tipo</label> <select
-										id="tipo" name="tipo" class="form-control">
-										<option value="" selected>Todos os tipos</option>
-										<option value="Receita" th:selected="${tipo == 'Receita'}">Receita</option>
-										<option value="Despesa" th:selected="${tipo == 'Despesa'}">Despesa</option>
-									</select>
-								</div>
+        <!-- Filtro por Ano -->
+        <div class="col-md-3">
+            <label for="ano" class="form-label">Ano</label>
+            <select id="ano" name="ano" class="form-control">
+                <option value="" selected>Todos os anos</option>
+                <option th:each="ano : ${anos}" th:value="${ano}" th:text="${ano}" th:selected="${ano == selectedAno}"></option>
+            </select>
+        </div>
 
-								<!-- Botão de Filtrar -->
-								<div class="col-md-4 d-flex align-items-end mt-2">
-									<button type="submit" class="btn btn-primary w-100">Filtrar</button>
-									
-								</div>
-							</div>
-						</form>
-						<a href="/dashboard/financeiro/pdf" class="btn btn-primary mt-3">
-    Gerar PDF
-</a>
+        <!-- Filtro por Tipo -->
+        <div class="col-md-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select id="tipo" name="tipo" class="form-control">
+                <option value="" selected>Todos os tipos</option>
+                <option value="Receita" th:selected="${tipo == 'Receita'}">Receita</option>
+                <option value="Despesa" th:selected="${tipo == 'Despesa'}">Despesa</option>
+            </select>
+        </div>
+
+        <!-- Botões -->
+        <div class="col-md-3 d-flex align-items-end mt-2">
+            <!-- Botão de Filtrar -->
+            <button type="submit" class="btn btn-primary w-50 ms-2">Filtrar</button>
+
+            <!-- Botão de Gerar PDF -->
+            <a th:href="@{/dashboard/financeiro/pdf(mes=${mes}, ano=${ano})}" 
+               class="btn btn-primary w-50">
+                <i class="fas fa-file-pdf"></i> Gerar PDF
+            </a>
+        </div>
+    </div>
+</form>
 						</div>
 						</div>
+						<div class="card mb-4 mt-2">
+    <div class="card-body">
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped mt-3">
 								<thead class="table-dark">
@@ -164,6 +175,8 @@
 					</div>
 				</div>
 			</section>
+		</div>
+		</div>
 		</div>
 
 		<!-- Footer -->
