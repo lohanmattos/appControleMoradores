@@ -85,14 +85,9 @@ public class DashFinanceiro {
                                       @RequestParam(required = false) String tipo,
                                       Model model) {
 
-        // Simular a lista de movimentações (normalmente você buscaria do banco de dados)
-        List<MovimentacaoDTO> todasMovimentacoes = List.of(
-            new MovimentacaoDTO("Receita", "Venda de Produto", new BigDecimal("1200.00"), LocalDate.of(2024, 1, 15)),
-            new MovimentacaoDTO("Despesa", "Compra de Material", new BigDecimal("450.00"), LocalDate.of(2024, 2, 10)),
-            new MovimentacaoDTO("Receita", "Consultoria", new BigDecimal("800.00"), LocalDate.of(2024, 3, 5)),
-            new MovimentacaoDTO("Despesa", "Aluguel", new BigDecimal("1000.00"), LocalDate.of(2023, 12, 1))
-        );
-
+        // Busca todas as movimentações financeiras (receitas e despesas)
+        List<MovimentacaoDTO> todasMovimentacoes = financeiroService.listarMovimentacoes();
+    	
         // Filtrar por mês e ano
         List<MovimentacaoDTO> movimentacoesFiltradas = todasMovimentacoes.stream()
             .filter(mov -> (mes == null || mov.getData().getMonthValue() == mes))
