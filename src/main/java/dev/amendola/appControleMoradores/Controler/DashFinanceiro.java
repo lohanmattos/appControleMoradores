@@ -162,6 +162,7 @@ public class DashFinanceiro {
             // Adicionar o mês e ano no cabeçalho do relatório
             String mesAnoTexto = "Período: ";
             if (mes != null) {
+            	mesAnoTexto.toUpperCase();
                 mesAnoTexto += monthFormatter.format(LocalDate.of(ano != null ? ano : LocalDate.now().getYear(), mes, 1));
             } else {
                 mesAnoTexto += "Todos os meses";
@@ -191,11 +192,13 @@ public class DashFinanceiro {
             tabelaReceitas.addCell(criarCelula("Valor", fontSubtitulo, BaseColor.GRAY, BaseColor.WHITE));
 
             BigDecimal totalReceitas = BigDecimal.ZERO;
+            
             List<Receita> receitas = receitaRepository.findAll().stream()
-                    .filter(r -> (mes == null || r.getData().getMonthValue() == mes))
-                    .filter(r -> (ano == null || r.getData().getYear() == ano))
+                    .filter(r -> mes == null || r.getData().getMonthValue() == mes.intValue())
+                    .filter(r -> ano == null || r.getData().getYear() == ano.intValue())
                     .toList();
-
+           
+            
             for (Receita receita : receitas) {
                 tabelaReceitas.addCell(receita.getData().format(formatter));
                 tabelaReceitas.addCell(receita.getDescricao());
@@ -222,9 +225,10 @@ public class DashFinanceiro {
             tabelaDespesas.addCell(criarCelula("Valor", fontSubtitulo, BaseColor.GRAY, BaseColor.WHITE));
 
             BigDecimal totalDespesas = BigDecimal.ZERO;
+            
             List<Despesa> despesas = despesaRepository.findAll().stream()
-                    .filter(d -> (mes == null || d.getData().getMonthValue() == mes))
-                    .filter(d -> (ano == null || d.getData().getYear() == ano))
+                    .filter(d -> (mes == null || d.getData().getMonthValue() == mes.intValue()))
+                    .filter(d -> (ano == null || d.getData().getYear() == ano.intValue()))
                     .toList();
 
             for (Despesa despesa : despesas) {
