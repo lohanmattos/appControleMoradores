@@ -3,6 +3,7 @@ package dev.amendola.appControleMoradores.Controler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -32,4 +33,9 @@ public class InicioControler {
 	String logout() {
 		return "login";
 	}
+    
+    @GetMapping("/cadastro")
+    public String NovoUsuario(Model model) {
+        return "cadastro";
+    }
 }

@@ -17,6 +17,8 @@ import dev.amendola.appControleMoradores.Model.Perfil;
 import dev.amendola.appControleMoradores.Model.Responsavel;
 import dev.amendola.appControleMoradores.Model.Usuario;
 import dev.amendola.appControleMoradores.Repository.PerfilRepository;
+import dev.amendola.appControleMoradores.Repository.ResponsavelRepository;
+import dev.amendola.appControleMoradores.Service.ResponsavelService;
 import dev.amendola.appControleMoradores.Service.UsuarioService;
 
 @Controller
@@ -31,6 +33,9 @@ public class UsuarioController {
     
     @Autowired
     private PerfilRepository perfilRepository;
+    
+    @Autowired
+    private ResponsavelService responsavelService;
 
     @GetMapping("/perfil")
     public String userProfile(Model model, Principal principal) {
@@ -114,5 +119,15 @@ public class UsuarioController {
         usuarioService.excluirUsuario(id);
         return "redirect:/usuarios/listar";
     }
+    
+    
+    @PostMapping("/cadastrarNovoUsuario")
+    public String cadastrarUsuario(Usuario user, Model model) {
+
+        // Redirecionar para a página de login
+        return "redirect:/login";
+    }
+
+    
 
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - CorujaCondo</title>
+    <title>Cadastro - CorujaCondo</title>
     <!-- Adicione os estilos CSS necessários -->
       <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,10 +19,10 @@
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
             <a th:href="@{/}" class="h1"><b>Coruja</b>Condo</a>
-            <p>Controle de Condominios</p>
+            <p>Cadastro de Usuário</p>
         </div>
         <div class="card-body">
-            <p class="login-box-msg">Entre para iniciar sua sessão</p>
+            <p class="login-box-msg">Preencha os campos para criar uma conta</p>
 
             <!-- Exibe mensagem de erro -->
             <div th:if="${error}" class="alert alert-danger">
@@ -34,17 +34,19 @@
                 <p th:text="${message}"></p>
             </div>
 
-            <form th:action="@{/login}" method="post">
-            <input type="hidden"
-            name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <form th:action="@{/usuarios/cadastrarNovoUsuario}" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<!-- Campo oculto para o ID do usuário -->
+						<input type="hidden" id="usuarioId" name="id">	
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Usuário" name="username" required>
+                    <input type="email" class="form-control" placeholder="Email" name="email" required>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                 </div>
+
                 <div class="input-group mb-3">
                     <input type="password" class="form-control" placeholder="Senha" name="password" required>
                     <div class="input-group-append">
@@ -52,29 +54,28 @@
                             <span class="fas fa-lock"></span>
                         </div>
                     </div>
-                </div>               
-                 <div class="icheck-primary">
-              <!-- Adicione o atributo "name" ao checkbox e o "id" associado -->
-              <input type="checkbox" id="rememberMe" name="rememberMe" th:checked="${param.rememberMe}">
-              <label for="rememberMe">
-                Lembre de mim
-              </label>
-            </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Confirme a Senha" name="confirmPassword" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                        <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
                     </div>
                 </div>
             </form>
 
-            <div class="text-center mt-3">
-                <p>Não tem uma conta? <a th:href="@{/cadastro}">Cadastre-se</a></p>
-            </div>
-
             <div class="text-center">
                 <br>
-                <i><b>© 2024 Copyright: Amendola.dev</b></i>   
-            </div> 
+                <i><b>© 2024 Copyright: Amendola.dev</b></i>
+            </div>
         </div>
     </div>
 </div>
